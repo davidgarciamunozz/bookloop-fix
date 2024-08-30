@@ -1,0 +1,26 @@
+{
+  "name": "bookloop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsSilva/bookloop.git"
+  },
+  "keywords": [
+    "website"
+  ],
+  "author": "Juan Silva, Majo Rodríguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsSilva/bookloop/issues"
+  },
+  "homepage": "https://github.com/ItsSilva/bookloop#readme",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "serve": "^14.2.3"
+  }
+}
