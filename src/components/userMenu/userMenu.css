@@ -1,0 +1,53 @@
+.container {
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.action-user-element, .setting-user-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.action-user-element > div, .setting-user-element > div {
+    margin: 5%;
+}
+
+.setting-user-element {
+    margin-top: 50%;
+}
+
+a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+i {
+    margin-right: 10px;
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.home-element a, .home-element i {
+    color: #ffc320;
+}
+
+.clubs-element a, .clubs-element i {
+    color: #6471c7;
+}
+
+.discover-element a, .discover-element i {
+    color: #c2be4d;
+}
+
+.help-element i, .setting-element i {
+    color: #999;
+}
+
+.help-element, .setting-element {
+    opacity: 0.5;
+}
