@@ -51,7 +51,6 @@ class Main extends HTMLElement {
 
             this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="../src/screens/main/main.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             `;
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(userContainer);
