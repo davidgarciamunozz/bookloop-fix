@@ -1,10 +1,9 @@
-// import '../../components/navBar/navBar';
 import * as components from '../../components/index';
 import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
 import '../../components/userMenu/userMenu';
 import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
-import {dataUsers } from '../../data/dataUsers';
+import { dataUsers } from '../../data/dataUsers';
 
 class Main extends HTMLElement {
     user: UserInfo[] = [];
@@ -14,8 +13,6 @@ class Main extends HTMLElement {
         this.attachShadow({ mode: 'open' });
 
         dataUsers.forEach(dataUser => {
-            // console.log(dataUser);
-            
             const userCard = this.ownerDocument.createElement('user-info') as UserInfo;
             userCard.setAttribute('background', dataUser.background);
             userCard.setAttribute('userpic', dataUser.userpic);
@@ -31,28 +28,36 @@ class Main extends HTMLElement {
 
     render() {
         if (this.shadowRoot) {
+            const navBar = this.ownerDocument.createElement('nav-bar');
+            navBar.setAttribute('icon', "../src/assets/logos/big_logo.png");
+            navBar.setAttribute('img', "../src/assets/logos/medium_logo.png");
+            navBar.setAttribute('input', "Search");
+
+            const userContainer = this.ownerDocument.createElement('section');
+            userContainer.className = 'user-container';
+
+            this.user.forEach(userCard => {
+                userContainer.appendChild(userCard);
+            });
+
+            const userMenu = this.ownerDocument.createElement('user-menu');
+            userMenu.setAttribute('home', '#');
+            userMenu.setAttribute('clubs', '#');
+            userMenu.setAttribute('discover', '#');
+            userMenu.setAttribute('help', '#');
+            userMenu.setAttribute('setting', '#');
+
+            userContainer.appendChild(userMenu);
+
             this.shadowRoot.innerHTML = `
-                <nav-bar 
-                    icon="../src/assets/logos/big_logo.png"
-                    img="../src/assets/logos/medium_logo.png"
-                    input="Search"
-                ></nav-bar>
+            <link rel="stylesheet" href="../src/screens/main/main.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             `;
-            this.user.forEach((e) => {
-                this.shadowRoot?.appendChild(e);
-            // console.log('Clubs Landing connected');
-            })
-            this.shadowRoot.innerHTML += `
-            <user-menu
-            home='#'
-            clubs='#'
-            discover='#'
-            help='#'
-            setting='#'
-            ></user-menu>
-            `
+            this.shadowRoot.appendChild(navBar);
+            this.shadowRoot.appendChild(userContainer);
         }
     }    
 }
+
 customElements.define('main-page', Main);
 export default Main;
