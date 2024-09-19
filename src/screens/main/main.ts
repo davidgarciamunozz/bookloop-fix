@@ -2,6 +2,7 @@
 import * as components from '../../components/index';
 import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
+import '../../components/userMenu/userMenu';
 import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
 import {dataUsers } from '../../data/dataUsers';
 
@@ -41,7 +42,15 @@ class Main extends HTMLElement {
                 this.shadowRoot?.appendChild(e);
             // console.log('Clubs Landing connected');
             })
-            this.shadowRoot.innerHTML += ``
+            this.shadowRoot.innerHTML += `
+            <user-menu
+            home='#'
+            clubs='#'
+            discover='#'
+            help='#'
+            setting='#'
+            ></user-menu>
+            `
         }
     }    
 }
