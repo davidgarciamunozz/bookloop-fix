@@ -6,6 +6,7 @@
 
 .container{
     display: flex;
+    gap: 2rem;
 }
 
 .user-container {
