@@ -43,10 +43,22 @@
     background: none;
     color: #6471C7;
     padding: 0.5rem 1rem;
+    transition: opacity 0.3s ease;
+}
+
+.container-button button.selected {
+    border-bottom: #6471C7 0.2rem solid;
     border: none;
     border-bottom: #6471C7 0.2rem solid;
     cursor: pointer;
+    opacity: 1;
 }
+
+.container-button button:not(.selected) {
+    opacity: 0.5;
+    border: none;
+}
+
 
 .container-inputs {
     display: flex;
@@ -124,4 +136,8 @@
     border: none;
     border-radius: 2rem;
     cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }

@@ -1,13 +1,13 @@
 export enum Attribute {
-    'userpic' = 'userpic',
-    'text' = 'text',
-    'buttontext' = 'buttontext',
-    'buttonimages' = 'buttonimages',
-    'inputtext' = 'inputtext',
-    'inputimage' = 'inputimage',
-    'club' = 'club',
-    'post' = 'post',
-};
+    userpic = 'userpic',
+    text = 'text',
+    buttontext = 'buttontext',
+    buttonimages = 'buttonimages',
+    inputtext = 'inputtext',
+    inputimage = 'inputimage',
+    club = 'club',
+    post = 'post',
+}
 
 class NewPost extends HTMLElement {
     userpic?: string;
@@ -29,38 +29,55 @@ class NewPost extends HTMLElement {
     }
 
     attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
-        switch (propName) {
-            case Attribute.userpic:
-                this.setUserpic(newValue);
-                break;
-            case Attribute.text:
-                this.setText(newValue);
-                break;
-            case Attribute.buttontext:
-                this.setButtontext(newValue);
-                break;
-            case Attribute.buttonimages:
-                this.setButtonimages(newValue);
-                break;
-            case Attribute.inputtext:
-                this.setInputtext(newValue);
-                break;
-            case Attribute.inputimage:
-                this.setInputimage(newValue);
-                break;
-            case Attribute.club:
-                this.setClub(newValue);
-                break;
-            case Attribute.post:
-                this.setPost(newValue);
-                break;
-        }
+        this[propName] = newValue;
         this.render();
     }
 
     connectedCallback() {
         this.render();
         this.addFileInputListener();
+        this.addButtonListeners();
+        this.setDefaultButton();
+    }
+
+    addButtonListeners() {
+        const textButton = this.shadowRoot?.querySelector('.button-text') as HTMLButtonElement;
+        const imageButton = this.shadowRoot?.querySelector('.button-images') as HTMLButtonElement;
+        const inputText = this.shadowRoot?.querySelector('.input-wrapper-inputtext') as HTMLElement;
+        const inputImage = this.shadowRoot?.querySelector('.input-wrapper-inputimage') as HTMLElement;
+
+        textButton?.addEventListener('click', () => {
+            inputText?.classList.remove('hidden');
+            inputImage?.classList.add('hidden');
+            this.updateButtonStyles(textButton, imageButton);
+        });
+
+        imageButton?.addEventListener('click', () => {
+            inputText?.classList.add('hidden');
+            inputImage?.classList.remove('hidden');
+            this.updateButtonStyles(imageButton, textButton);
+        });
+    }
+
+    updateButtonStyles(selectedButton: HTMLButtonElement | null, unselectedButton: HTMLButtonElement | null) {
+        if (selectedButton) {
+            selectedButton.classList.add('selected');
+        }
+        if (unselectedButton) {
+            unselectedButton.classList.remove('selected');
+        }
+    }
+
+    setDefaultButton() {
+        const textButton = this.shadowRoot?.querySelector('.button-text') as HTMLButtonElement;
+        const inputText = this.shadowRoot?.querySelector('.input-wrapper-inputtext') as HTMLElement;
+        const inputImage = this.shadowRoot?.querySelector('.input-wrapper-inputimage') as HTMLElement;
+
+        if (textButton) {
+            this.updateButtonStyles(textButton, null);
+            inputText?.classList.remove('hidden');
+            inputImage?.classList.add('hidden'); 
+        }
     }
 
     addFileInputListener() {
@@ -84,7 +101,7 @@ class NewPost extends HTMLElement {
             this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="../src/components/newPost/newPost.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <section class='container'>
+            <form class='container'>
                 <div class='container-userpic'>
                     <a href="#">
                         <img src="${this.userpic || 'No User Pic'}" alt="User Picture">
@@ -92,60 +109,27 @@ class NewPost extends HTMLElement {
                     <h2>${this.text || 'No Text'}</h2>
                 </div>
                 <div class='container-button'>
-                    <button>${this.buttontext || 'No Button Text'}</button>
-                    <button>${this.buttonimages || 'No Button Images'}</button>
+                    <button type="button" class="button-text">${this.buttontext || 'No Button Text'}</button>
+                    <button type="button" class="button-images">${this.buttonimages || 'No Button Images'}</button>
                 </div>
                 <div class='container-inputs'>
                     <div class="input-wrapper-inputtext">
                         <i class="fa-solid fa-message" style="color: #999;"></i>
-                        <input type="text" placeholder="${this.inputtext || 'No input'}">
+                        <input type="text" placeholder="${this.inputtext || 'No input'}" name="textInput">
                     </div>
-                    <label class="input-wrapper-inputimage">
+                    <label class="input-wrapper-inputimage hidden">
                         <i class="fa-solid fa-cloud-arrow-up" style="color: #999;"></i>
                         <span class="file-placeholder">${this.inputimage || 'No input'}</span>
-                        <input type="file" class="file-input">
+                        <input type="file" class="file-input" name="imageInput">
                     </label>
                 </div>
                 <div class='container-buttons-post'>
-                    <button>${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #fff;"></i></button>
-                    <button>${this.post || 'No Post'}</button>
+                    <button type="button">${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #fff;"></i></button>
+                    <button type="submit">${this.post || 'No Post'}</button>
                 </div>
-            </section>
+            </form>
             `;
         }
-    }
-
-    // Métodos setter
-    setUserpic(value: string | undefined) {
-        this.userpic = value;
-    }
-
-    setText(value: string | undefined) {
-        this.text = value;
-    }
-
-    setButtontext(value: string | undefined) {
-        this.buttontext = value;
-    }
-
-    setButtonimages(value: string | undefined) {
-        this.buttonimages = value;
-    }
-
-    setInputtext(value: string | undefined) {
-        this.inputtext = value;
-    }
-
-    setInputimage(value: string | undefined) {
-        this.inputimage = value;
-    }
-
-    setClub(value: string | undefined) {
-        this.club = value;
-    }
-
-    setPost(value: string | undefined) {
-        this.post = value;
     }
 }
 
