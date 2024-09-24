@@ -29,13 +29,54 @@ class NewPost extends HTMLElement {
     }
 
     attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
-        this[propName] = newValue; // background, userpic, name, at
+        switch (propName) {
+            case Attribute.userpic:
+                this.setUserpic(newValue);
+                break;
+            case Attribute.text:
+                this.setText(newValue);
+                break;
+            case Attribute.buttontext:
+                this.setButtontext(newValue);
+                break;
+            case Attribute.buttonimages:
+                this.setButtonimages(newValue);
+                break;
+            case Attribute.inputtext:
+                this.setInputtext(newValue);
+                break;
+            case Attribute.inputimage:
+                this.setInputimage(newValue);
+                break;
+            case Attribute.club:
+                this.setClub(newValue);
+                break;
+            case Attribute.post:
+                this.setPost(newValue);
+                break;
+        }
         this.render();
     }
 
     connectedCallback() {
         this.render();
-        // console.log('User Info connected');
+        this.addFileInputListener();
+    }
+
+    addFileInputListener() {
+        const fileInput = this.shadowRoot?.querySelector('.file-input') as HTMLInputElement;
+        const filePlaceholder = this.shadowRoot?.querySelector('.file-placeholder') as HTMLSpanElement;
+
+        if (fileInput && filePlaceholder) {
+            fileInput.addEventListener('change', (event: Event) => {
+                const target = event.target as HTMLInputElement;
+                if (target.files && target.files.length > 0) {
+                    filePlaceholder.textContent = target.files[0].name;
+                } else {
+                    filePlaceholder.textContent = this.inputimage || 'No input';
+                }
+            });
+        }
     }
 
     render() {
@@ -55,20 +96,56 @@ class NewPost extends HTMLElement {
                     <button>${this.buttonimages || 'No Button Images'}</button>
                 </div>
                 <div class='container-inputs'>
-                    <i class="fa-solid fa-message" style="color: #322316;">
+                    <div class="input-wrapper-inputtext">
+                        <i class="fa-solid fa-message" style="color: #999;"></i>
                         <input type="text" placeholder="${this.inputtext || 'No input'}">
-                    </i>
-                    <i class="fa-solid fa-cloud-arrow-up" style="color: #322316;">
-                        <input type="text" placeholder="${this.inputimage || 'No input'}">
-                    </i>
+                    </div>
+                    <label class="input-wrapper-inputimage">
+                        <i class="fa-solid fa-cloud-arrow-up" style="color: #999;"></i>
+                        <span class="file-placeholder">${this.inputimage || 'No input'}</span>
+                        <input type="file" class="file-input">
+                    </label>
                 </div>
-                <div class='container-buttons'>
-                <button>${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #322316;"></i></button>
-                <button>${this.post || 'No Post'}</button>
+                <div class='container-buttons-post'>
+                    <button>${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #fff;"></i></button>
+                    <button>${this.post || 'No Post'}</button>
                 </div>
             </section>
             `;
         }
+    }
+
+    // Métodos setter
+    setUserpic(value: string | undefined) {
+        this.userpic = value;
+    }
+
+    setText(value: string | undefined) {
+        this.text = value;
+    }
+
+    setButtontext(value: string | undefined) {
+        this.buttontext = value;
+    }
+
+    setButtonimages(value: string | undefined) {
+        this.buttonimages = value;
+    }
+
+    setInputtext(value: string | undefined) {
+        this.inputtext = value;
+    }
+
+    setInputimage(value: string | undefined) {
+        this.inputimage = value;
+    }
+
+    setClub(value: string | undefined) {
+        this.club = value;
+    }
+
+    setPost(value: string | undefined) {
+        this.post = value;
     }
 }
 
