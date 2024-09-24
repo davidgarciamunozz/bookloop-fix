@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.container{
+.container {
     display: flex;
     gap: 2rem;
 }
@@ -15,7 +15,30 @@
     width: 24%;
     gap: 1.5rem;
     padding: 0 0 0 1rem;
+    transition: transform 0.3s ease;
 }
+
+.user-container.hidden {
+    transform: translateX(-100%);
+}
+
+.hidden {
+    display: none;
+}
+
+/* .post-container.expanded {
+    width: 100%;
+} */
+
+.container.full-width {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 0 1.5rem 0 1.5rem;
+}
+
 
 @media (max-width: 500px) {
     .user-container {
@@ -29,7 +52,7 @@
         flex-direction: row-reverse;
     }
 
-    .user-container  user-menu {
+    .user-container user-menu {
         width: 100%;
     } 
 }

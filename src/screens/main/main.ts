@@ -8,13 +8,13 @@ import { dataUsers } from '../../data/dataUsers';
 
 class Main extends HTMLElement {
     user: UserInfo[] = [];
-    currentUserPic: string = ''; // TEMPORARY variable to store the current user's image
+    currentUserPic: string = ''; 
+    isUserContainerVisible: boolean = true; 
 
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
 
-        // We assume that the first user in dataUsers is the current user
         this.currentUserPic = dataUsers[0].userpic;
 
         dataUsers.forEach(dataUser => {
@@ -29,16 +29,38 @@ class Main extends HTMLElement {
 
     connectedCallback() {
         this.render();
+        // Escuchar el evento personalizado emitido por NavBar
+        this.addEventListener('toggle-user-container', () => this.toggleUserContainer());
     }
 
+    toggleUserContainer() {
+        this.isUserContainerVisible = !this.isUserContainerVisible;
+        const userContainer = this.shadowRoot?.querySelector('.user-container');
+        const postContainer = this.shadowRoot?.querySelector('.post-container');
+        const container = this.shadowRoot?.querySelector('.container');
+        
+        if (userContainer && postContainer && container) {
+            // Ocultar/Mostrar el user-container
+            userContainer.classList.toggle('hidden', !this.isUserContainerVisible);
+    
+            // Expandir el post-container y el container principal si user-container está oculto
+            if (!this.isUserContainerVisible) {
+                postContainer.classList.add('expanded');
+                container.classList.add('full-width');
+            } else {
+                postContainer.classList.remove('expanded');
+                container.classList.remove('full-width');
+            }
+        }
+    }
+    
     render() {
         if (this.shadowRoot) {
-            
             const navBar = this.ownerDocument.createElement('nav-bar');
             navBar.setAttribute('icon', "../src/assets/logos/big_logo.png");
             navBar.setAttribute('img', "../src/assets/logos/medium_logo.png");
             navBar.setAttribute('input', "Search");
-            
+
             const container = this.ownerDocument.createElement('section');
             container.className = 'container';
 
@@ -81,7 +103,7 @@ class Main extends HTMLElement {
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(container);
         }
-    }    
+    }
 }
 
 customElements.define('main-page', Main);
