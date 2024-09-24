@@ -27,6 +27,10 @@
 
 .container-img-icon {
     justify-content: flex-start;
+    background: none;
+    border: none; 
+    padding: 0; 
+    cursor: pointer;
 }
 
 .container-img-icon i {
@@ -46,7 +50,7 @@
 }
 
 .container-search i {
-    margin-right: 10px;
+    margin: 0.5rem;
     color: #322316;
 }
 
