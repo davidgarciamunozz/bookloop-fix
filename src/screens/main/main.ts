@@ -3,11 +3,15 @@ import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
 import '../../components/userMenu/userMenu';
 import '../../components/newPost/newPost';
+import '../../components/postComponent/post';
 import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
+import Post, { Attribute2 } from '../../components/postComponent/post';
+import { dataPosts } from '../../data/dataPosts';
 
 class Main extends HTMLElement {
     user: UserInfo[] = [];
+    post: Post[] = [];
     currentUserPic: string = ''; 
     isUserContainerVisible: boolean = true; 
 
@@ -84,6 +88,7 @@ class Main extends HTMLElement {
             const postContainer = this.ownerDocument.createElement('section');
             postContainer.className = 'post-container';
 
+
             const newPost = this.ownerDocument.createElement('new-post');
             newPost.setAttribute('userpic', this.currentUserPic);
             newPost.setAttribute('text', 'Create new post');
@@ -93,9 +98,35 @@ class Main extends HTMLElement {
             newPost.setAttribute('inputimage', 'Drag and drop or upload media');
             newPost.setAttribute('club', 'Select a Club');
             newPost.setAttribute('post', 'Post');
-
+            
             postContainer.appendChild(newPost);
             container.appendChild(postContainer);
+            
+        const postDashboard = this.ownerDocument.createElement('section');
+        postDashboard.className = 'post-dashboard';
+
+        if (dataPosts && Array.isArray(dataPosts)) {
+            dataPosts.forEach(dataPost => {
+                const post = this.ownerDocument.createElement('post-component') as Post;
+                
+                post.setAttribute('clubpic', dataPost.clubPic);
+                post.setAttribute('clubname', dataPost.clubName);
+                post.setAttribute('image', dataPost.image);
+                post.setAttribute('likes', dataPost.likes.toString());
+                post.setAttribute('comments', dataPost.comments.toString());
+                post.setAttribute('author', dataPost.author);
+                post.setAttribute('desc', dataPost.desc);
+                
+                postDashboard.appendChild(post);
+                this.post.push(post);
+            });
+        } else {
+            console.error('dataPosts is not an array or is undefined');
+        }
+
+        postContainer.appendChild(postDashboard);
+
+
 
             this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="../src/screens/main/main.css">
