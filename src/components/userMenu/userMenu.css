@@ -5,7 +5,7 @@
 }
 
 .container {
-    background-color: white;
+    background-color: #F9F5F3;
     border-radius: 10px;
     width: 100%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -83,7 +83,7 @@ i {
     }
 
     .action-user-element > div > a i{
-        color: #F7F6EB !important;
+        color: #F9F5F3 !important;
         font-size: 24px;
     }
 
