@@ -38,6 +38,18 @@ class NewPost extends HTMLElement {
         this.addFileInputListener();
         this.addButtonListeners();
         this.setDefaultButton();
+        this.addFloatingButtonListener();
+        this.handleResize();
+        window.addEventListener('resize', () => this.handleResize());
+    }
+
+    handleResize() {
+        const container = this.shadowRoot?.querySelector('.container') as HTMLElement;
+        if (window.innerWidth > 500) {
+            container?.classList.remove('hidden');
+        } else {
+            container?.classList.add('hidden');
+        }
     }
 
     addButtonListeners() {
@@ -96,6 +108,17 @@ class NewPost extends HTMLElement {
         }
     }
 
+    addFloatingButtonListener() {
+        const floatingButton = this.shadowRoot?.querySelector('.floating-button') as HTMLDivElement;
+        const container = this.shadowRoot?.querySelector('.container') as HTMLElement;
+
+        floatingButton?.addEventListener('click', () => {
+            if (container) {
+                container.classList.toggle('hidden');
+            }
+        });
+    }
+
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
@@ -124,10 +147,13 @@ class NewPost extends HTMLElement {
                     </label>
                 </div>
                 <div class='container-buttons-post'>
-                    <button type="button">${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #fff;"></i></button>
+                    <button type="button">${this.club || 'No Club'}<i class="fa-solid fa-users" style="color: #F9F5F3;"></i></button>
                     <button type="submit">${this.post || 'No Post'}</button>
                 </div>
             </form>
+            <div class="floating-button">
+                <i class="fa-solid fa-message" style="color: #999;"></i>
+            </div>
             `;
         }
     }
