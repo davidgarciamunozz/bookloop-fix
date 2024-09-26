@@ -55,4 +55,8 @@
     .user-container user-menu {
         width: 100%;
     } 
+    .container {
+        flex-direction: column;
+        gap: 2rem;
+    }
 }
