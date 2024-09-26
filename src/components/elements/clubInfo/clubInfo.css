@@ -1,0 +1,35 @@
+.clubs--info {
+    width: 400px;
+    height: 50px;
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    
+}
+
+.clubs--info img {
+    
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.clubs--info__text {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    column-gap: 0;
+}
+
+.clubs--info__text p {
+    position: relative;
+    top: -20px;
+    left: 20px;
+}
+
+.clubs--info__text h4 {
+    color: #452d23;
+    position: relative;
+    top: 20px;
+}

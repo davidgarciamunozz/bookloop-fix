@@ -111,7 +111,9 @@
 }
 
 .input-wrapper-inputtext button {
-    overflow: hidden;
+    display: hidden;
+    opacity: 0;
+
 }
 
 .comments-list {
@@ -142,4 +144,49 @@
 
 .liked {
     color: blue; 
+}
+
+
+
+@media (max-width: 768px) {
+    .post--container {
+        max-width: 100%;
+        background-color: white;
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    .post-image {
+        height: auto;
+        max-height: 600px;
+    }
+
+    .input-wrapper-inputtext {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .post--container {
+        background-color: white;
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    .post-image {
+        max-height: 600px;
+    }
+
+    .input-wrapper-inputtext {
+        padding: 0.5rem;
+        display: hidden;
+    }
+
+    .container-inputs {
+        display: hidden;
+    }
+
+  .input-wrapper-inputtext {
+    display: none;
+}
 }

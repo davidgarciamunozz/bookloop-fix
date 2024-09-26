@@ -1,0 +1,20 @@
+.club-card {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    border-bottom-color: #D0AFA1;
+    width: 500px;
+}
+
+.save-icon {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.save-icon i {
+    margin-right: 5px;
+    font-size: 25px;
+    color: #D0AFA1;
+    cursor: pointer;
+}
