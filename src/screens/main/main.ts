@@ -8,6 +8,18 @@ import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
 import Post, { Attribute2 } from '../../components/postComponent/post';
 import { dataPosts } from '../../data/dataPosts';
+import '../../components/postPopUp/postPopUp';
+import PostPopUp, { Attribute3} from '../../components/postPopUp/postPopUp';
+import '../../components/elements/clubInfo/clubInfo';
+import '../../components/clubsCard/clubsCard';
+import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
+import { dataClubs } from '../../data/dataClubs';
+
+
+
+
+
+
 
 class Main extends HTMLElement {
     user: UserInfo[] = [];
@@ -101,30 +113,56 @@ class Main extends HTMLElement {
             
             postContainer.appendChild(newPost);
             container.appendChild(postContainer);
-            
+        
+            // Posts & pop up
         const postDashboard = this.ownerDocument.createElement('section');
-        postDashboard.className = 'post-dashboard';
+postDashboard.className = 'post-dashboard';
 
-        if (dataPosts && Array.isArray(dataPosts)) {
-            dataPosts.forEach(dataPost => {
-                const post = this.ownerDocument.createElement('post-component') as Post;
-                
-                post.setAttribute('clubpic', dataPost.clubPic);
-                post.setAttribute('clubname', dataPost.clubName);
-                post.setAttribute('image', dataPost.image);
-                post.setAttribute('likes', dataPost.likes.toString());
-                post.setAttribute('comments', dataPost.comments.toString());
-                post.setAttribute('author', dataPost.author);
-                post.setAttribute('desc', dataPost.desc);
-                
-                postDashboard.appendChild(post);
-                this.post.push(post);
-            });
-        } else {
-            console.error('dataPosts is not an array or is undefined');
-        }
+if (dataPosts && Array.isArray(dataPosts)) {
+    dataPosts.forEach(dataPost => {
+        const post = this.ownerDocument.createElement('post-component') as Post;
 
-        postContainer.appendChild(postDashboard);
+        post.setAttribute('clubpic', dataPost.clubPic);
+        post.setAttribute('clubname', dataPost.clubName);
+        post.setAttribute('image', dataPost.image);
+        post.setAttribute('likes', dataPost.likes.toString());
+        post.setAttribute('comments', dataPost.comments.toString());
+        post.setAttribute('author', dataPost.author);
+        post.setAttribute('desc', dataPost.desc);
+
+        
+
+        postDashboard.appendChild(post);
+        this.post.push(post);
+    });
+} else {
+    console.error('dataPosts is not an array or is undefined');
+}
+
+postContainer.appendChild(postDashboard);
+
+// clubs
+const clubsContainer = this.ownerDocument.createElement('section');
+clubsContainer.className = 'clubs-container';
+
+if (dataClubs && Array.isArray(dataClubs)) {
+    dataClubs.forEach(dataClub => {
+        const clubs = this.ownerDocument.createElement('clubs-card') as ClubsCard;
+
+        
+        clubs.setAttribute('clubpic', dataClub.clubpic); 
+        clubs.setAttribute('name', dataClub.name); 
+        clubs.setAttribute('members', dataClub.members.toString()); 
+
+        clubsContainer.appendChild(clubs);
+    });
+}
+
+console.log(clubsContainer);
+
+container.appendChild(clubsContainer);
+
+
 
 
 
