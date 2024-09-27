@@ -122,8 +122,8 @@ if (dataPosts && Array.isArray(dataPosts)) {
     dataPosts.forEach(dataPost => {
         const post = this.ownerDocument.createElement('post-component') as Post;
 
-        post.setAttribute('clubpic', dataPost.clubPic);
-        post.setAttribute('clubname', dataPost.clubName);
+        post.setAttribute('clubpic', dataPost.clubpic);
+        post.setAttribute('clubname', dataPost.clubname);
         post.setAttribute('image', dataPost.image);
         post.setAttribute('likes', dataPost.likes.toString());
         post.setAttribute('comments', dataPost.comments.toString());
@@ -146,24 +146,23 @@ const clubsContainer = this.ownerDocument.createElement('section');
 clubsContainer.className = 'clubs-container';
 
 if (dataClubs && Array.isArray(dataClubs)) {
-    dataClubs.forEach(dataClub => {
-        const clubs = this.ownerDocument.createElement('clubs-card') as ClubsCard;
+    const clubsCard1 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
+    clubsCard1.setAttribute('cardtitle', 'Clubs');
+    clubsCard1.setAttribute('buttontext', 'Your Clubs');
+    clubsCard1.setAttribute('cardcolor', '#6471C7');
+    clubsCard1.setAttribute('buttoncolor', '#6471C7');
+    clubsContainer.appendChild(clubsCard1);
 
-        
-        clubs.setAttribute('clubpic', dataClub.clubpic); 
-        clubs.setAttribute('name', dataClub.name); 
-        clubs.setAttribute('members', dataClub.members.toString()); 
-
-        clubsContainer.appendChild(clubs);
-    });
+    const clubsCard2 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
+    clubsCard2.setAttribute('cardtitle', 'Discover');
+    clubsCard2.setAttribute('buttontext', 'Discover now');
+    clubsCard2.setAttribute('cardcolor', '#C2BE4D');
+    clubsCard2.setAttribute('buttoncolor', '#C2BE4D');
+    clubsContainer.appendChild(clubsCard2);
 }
 
 console.log(clubsContainer);
-
 container.appendChild(clubsContainer);
-
-
-
 
 
             this.shadowRoot.innerHTML = `

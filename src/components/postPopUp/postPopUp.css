@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(29, 22, 20, 0.683);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,17 +13,78 @@
 
 .popup-content {
     background: white;
-    padding: 20px;
+    
     border-radius: 8px;
     position: relative;
+    display: flex;
+    height: 600px;
+    width: 800px;
+}
+
+.popup-der {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 245, 241);
+    width: 400px;
+    border-radius: 8px;
+    
+    
+}
+
+.popup-izq {
+ border-radius: 8px;    
+ margin-left: 40px;
+}
+
+.popup {
+    display: flex;
+    background-color: rgb(255, 245, 241);
+    width: auto;
+    border-radius: 8px;
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    position: relative;
+    z-index: 1000;
+    left: 160px;
     border: none;
+    top: 20px;
     background: none;
     font-size: 20px;
     cursor: pointer;
+}
+
+.club-info {
+    position: relative;
+    right: 40px;
+    top: -24px;
+    display: flex;
+    font-size: 10px;
+    color: rgb(81, 52, 41);
+    align-items: center;
+    background-color: rgb(255, 245, 241);
+    width: 420px;
+    height: 40px;
+    border-radius: 8px;
+    padding: 10px;
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.club-info img {
+ width: 30px;
+ height: 30px;
+ border-radius: 50%;
+ margin-right: 15px;
+}
+
+.post-img {
+    padding: 0;
+    position: relative;
+    right: 40px;
+}
+.post-img img {
+    height: 620px;
+    width: 500px;
+    border-radius: 8px;
 }

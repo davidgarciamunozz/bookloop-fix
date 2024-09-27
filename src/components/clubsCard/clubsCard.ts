@@ -1,78 +1,78 @@
 import '../../components/elements/clubInfo/clubInfo';
+import { dataClubs } from '../../data/dataClubs';
 
 export enum AttributeClubsCard {
-    'clubpic' = 'clubpic',
-    'name' = 'name',
-    'members' = 'members',
+    'cardtitle' = 'cardtitle',
+    'buttontext' = 'buttontext',
+    'cardcolor' = 'cardcolor',
+    'buttoncolor' = 'buttoncolor',
 }
 
 class ClubsCard extends HTMLElement {
-    clubpic?: string;
-    name?: string;
-    members?: number;
-    isSaved: boolean = false; 
+    clubs = dataClubs;
+    cardtitle: string = '';
+    buttontext: string = '';
+    cardcolor: string = 'black';
+    buttoncolor: string = 'gray';
+
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
     }
 
     static get observedAttributes() {
-        return Object.keys(AttributeClubsCard) as Array<AttributeClubsCard>;
+        return ['cardtitle', 'buttontext', 'cardcolor', 'buttoncolor'];
     }
 
-    attributeChangedCallback(propName: AttributeClubsCard, oldValue: string | undefined | number, newValue: string | undefined) {
-        switch (propName) {
-            case AttributeClubsCard.clubpic:
-                this.clubpic = newValue as string;
-                break;
-            case AttributeClubsCard.name:
-                this.name = newValue as string;
-                break;
-            case AttributeClubsCard.members:
-                this.members = newValue ? Number(newValue) : 0;
-                break;
+    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+        if (newValue) {
+            if (name === 'cardtitle') {
+                this.cardtitle = newValue;
+            } else if (name === 'buttontext') {
+                this.buttontext = newValue;
+            } else if (name === 'cardcolor') {
+                this.cardcolor = newValue;
+            } else if (name === 'buttoncolor') {
+                this.buttoncolor = newValue;
+            }
+            this.render();
         }
     }
 
     connectedCallback() {
         this.render();
-
-        // Agregar el evento de clic para el botón de guardado del componente club-info
-        const saveButton = this.shadowRoot?.querySelector('club-info .save-icon');
-        if (saveButton) {
-            saveButton.addEventListener('click', this.toggleSave.bind(this));
-        }
-    }
-
-    toggleSave() {
-        this.isSaved = !this.isSaved;
-        const saveIcon = this.shadowRoot?.querySelector('club-info .save-icon i');
-        if (saveIcon) {
-            if (this.isSaved) {
-                saveIcon.classList.add('saved'); 
-            } else {
-                saveIcon.classList.remove('saved'); 
-            }
-        }
     }
 
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
                 <link rel="stylesheet" href="../src/components/clubsCard/clubsCard.css">
-                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-                <section class="club-card">
-                    <club-info
-                        clubpic="${this.clubpic}"
-                        name="${this.name}"
-                        members="${this.members}"
-                    ></club-info>
-                    <button class="save-icon">
-                        <i class="fa-regular fa-bookmark"></i></button>
+                <section>
+                    <div class="card">
+                        <h3 style="color: ${this.cardcolor};">${this.cardtitle || 'Default Title'}</h3>
+                    </div>
+                    <div class="club-list">
+                        ${this.clubs.map(club => `
+                            <div class="club-info-container">
+                                <club-info
+                                    clubpic="${club.clubpic}"
+                                    name="${club.name}"
+                                    members="${club.members}"
+                                ></club-info>
+                                <i class="fas fa-bookmark bookmark-icon" data-club-name="${club.name}" aria-hidden="true"></i>
+                            </div>
+                        `).join('')}
+                        <button style="background-color: ${this.buttoncolor};">${this.buttontext || 'Default Button'}</button>
+                    </div>
                 </section>
-                
             `;
+            this.shadowRoot.querySelectorAll('.bookmark-icon').forEach(icon => {
+                icon.addEventListener('click', () => {
+                    icon.classList.toggle('filled');
+                });
+            });
         }
     }
 }
