@@ -31,12 +31,23 @@ class PostPopUp extends HTMLElement {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
                 <link rel="stylesheet" href="../src/components/postPopup/postPopup.css">
-                <div class="popup-overlay">
-                    <div class="popup-content">
+            <div class="popup-overlay">
+                <div class="popup">
+                    <div class="popup-izq">
+                        <div class="post-img">
+                            <img src="${this.image}" alt="Post Image" class="post-image">
+                        </div>
+                    </div>
+                    <div class="popup-der">
                         <button id="closePopup" class="close-btn">X</button>
-                        <h2>${this.clubname}</h2>
-                        <img src="${this.clubpic}" alt="Club Picture" class="club-pic">
-                        <img src="${this.image}" alt="Post Image" class="post-image">
+                        <div class="club-info">
+                            <img src="${this.clubpic}" alt="Club Picture" class="club-pic">
+                            <h2>${this.clubname}</h2>
+                        </div>
+                        <div class="post-stats">
+                            <span><i class="fas fa-heart"></i> ${this.likes} Likes</span>
+                            <span><i class="fas fa-user"></i> @${this.author}</span>
+                        </div>
                         <p class="post-desc">${this.desc}</p>
                         <div class="comments-section">
                             <h3>Comments</h3>
@@ -46,12 +57,10 @@ class PostPopUp extends HTMLElement {
                         </div>
                     </div>
                 </div>
-            `;
-            
-
-            
-        }
+            </div>
+        `;
     }
+}
     
     
     addCloseHandler() {
@@ -61,7 +70,7 @@ class PostPopUp extends HTMLElement {
         });
     }
 
-    setPopupData(description: string, comments: string[], clubname: string, image: string, clubpic: string) {
+    setPopupData(description: string | undefined, comments: string[], clubname: string |undefined, image: string |undefined, clubpic: string |undefined, author: string | undefined, liked: boolean) {
         this.desc = description;
         this.comments = comments;
         this.clubname = clubname;

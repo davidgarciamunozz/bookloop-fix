@@ -16,7 +16,10 @@
     gap: 1.5rem;
     padding: 0 0 0 1rem;
     transition: transform 0.3s ease;
+    margin-left: 2rem;
 }
+
+
 
 .user-container.hidden {
     transform: translateX(-100%);
