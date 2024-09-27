@@ -16,7 +16,10 @@
     gap: 1.5rem;
     padding: 0 0 0 1rem;
     transition: transform 0.3s ease;
+    margin-left: 2rem;
 }
+
+
 
 .user-container.hidden {
     transform: translateX(-100%);
@@ -50,6 +53,7 @@
         width: 100%;   
         padding: 20px;
         flex-direction: row-reverse;
+        margin: 0;
     }
 
     .user-container user-menu {
