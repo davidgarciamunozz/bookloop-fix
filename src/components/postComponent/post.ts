@@ -1,3 +1,7 @@
+import '../postPopUp/postPopUp'
+import PostPopUp, { Attribute3} from '../../components/postPopUp/postPopUp';
+
+
 export enum Attribute2 {
     'clubpic' = 'clubpic',
     'clubname' = 'clubname',
@@ -15,7 +19,7 @@ class Post extends HTMLElement {
     comments?: number;
     author?: string;
     desc?: string;
-    userComments: string[] = [];
+    usercomments: string[] = [];
     likes: number = 0;
     liked: boolean = false;
 
@@ -79,17 +83,17 @@ class Post extends HTMLElement {
                         <img src="${this.image}" alt="Post Image" class="post-image">
                         <div class="post--body">
                         <div class="post--info">
-                        <span class="likes" id="likeButton">
+                        <button class="likes" id="likeButton">
                         <i class="${this.liked ? 'fas fa-heart' : 'far fa-heart'}"></i> 
                         ${this.likes}
-                        </span>
-                        <span class="comments"><i class="fas fa-comment"></i> ${this.userComments.length}</span>
+                        </button>
+                        <span class="comments"><i class="fas fa-comment"></i> ${this.usercomments.length}</span>
                         </div>
                         <div class="post--author">
                         <h3>@${this.author}</h3>
                         <p>${this.desc}</p>
                         </div>
-                        </div>
+                        </div>  
                         <div class='container-inputs'>
                         <div class="input-wrapper-inputtext">
                         <i class="fa-solid fa-message" style="color: #999;"></i>
@@ -97,50 +101,81 @@ class Post extends HTMLElement {
                         <button type="submit" id="sendComment">Send</button>
                         </div>
                         <div class="comments-list">
-                        ${this.userComments.map(comment => `<p>${comment}</p>`).join('')}
+                        ${this.usercomments.map(comment => `<p class="comment-item">@${this.author}: ${comment}</p>`).join('')}
                         </div>
                         </div>
                         </section>
                         `;
-                    }
+
+                        this.addImageClickHandler();
+            this.addLikeHandler();  // Reasociar el like después de renderizar
+            this.addComments();      // Reasociar los comentarios después de renderizar
+        }
+    }
+                
+    addImageClickHandler() {
+        const postImage = this.shadowRoot?.querySelector<HTMLImageElement>('.post-image');
+
+        if (postImage) {
+            postImage.addEventListener('click', (event) => {
+                event.stopPropagation();
+                
+                const postPopup = document.createElement('post-popup') as PostPopUp;
+                postPopup.setPopupData(
+                    this.usercomments,  // Primer parámetro que es un array
+                    this.clubname, 
+                    this.image, 
+                    this.clubpic,
+                    this.author,
+                    this.desc,
+                    this.liked,
+                );
+                document.body.appendChild(postPopup);
+                console.log("clicked");
+                 
+            });
+        }
+    }
+
+    addComments() {
+        const input = this.shadowRoot?.querySelector<HTMLInputElement>('#commentInput');
+        const button = this.shadowRoot?.querySelector<HTMLButtonElement>('#sendComment');
+        
+        if (input && button) {
+            button.addEventListener('click', () => {
+                const commentText = input.value.trim();
+                if (commentText) {
+                    this.usercomments.push(commentText);
+                    this.comments = this.usercomments.length;
+                    this.render();  
+                    input.value = '';
                 }
-                
-                
-                addComments() {
-                       const input = this.shadowRoot?.querySelector<HTMLInputElement>('#commentInput');
-                       const button = this.shadowRoot?.querySelector<HTMLButtonElement>('#sendComment');
-                       
-                       if (input && button) {
-                           button.addEventListener('click', () => {
-                               const commentText = input.value.trim();
-                               if (commentText) {
-                                   this.userComments.push(commentText);
-                                   this.comments = this.userComments.length;
-                                   this.render();
-                                   input.value = '';
-                               }
-                           });
-                           
-                           input.addEventListener('keypress', (event) => {
-                               if (event.key === 'Enter') {
-                                   button.click();
-                               }
-                           });
-                       }
-                   }
-               
-                   addLikeHandler() {
-                       const likeButton = this.shadowRoot?.querySelector<HTMLSpanElement>('#likeButton');
-                       
-                       if (likeButton) {
-                           likeButton.addEventListener('click', () => {
-                               this.liked = !this.liked; 
-                               this.likes += this.liked ? 1 : -1; 
-                               this.render(); 
-                           });
-                       }
-                   }
-            }
+            });
+            
+            input.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    button.click();
+                }
+            });
+        }
+    }
+
+    addLikeHandler() {
+        const likeButton = this.shadowRoot?.querySelector<HTMLButtonElement>('#likeButton');
+        
+        if (likeButton) {
+            likeButton.addEventListener('click', (e) => {
+                this.toggleLike();
+                this.likes += this.liked ? 1 : -1;
+                this.render();  
+            });
+        }
+    }
+
+    toggleLike() {
+        this.liked = !this.liked;
+    }
+}
             
             
             
