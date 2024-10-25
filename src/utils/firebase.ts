@@ -19,6 +19,19 @@ const getFirebaseInstance = async () => {
     return { db, auth };
 };
 
+export const addPublications = async (product: any) => {
+	try {
+		const { db } = await getFirebaseInstance();
+		const { collection, addDoc } = await import('firebase/firestore');
+
+		const where = collection(db, 'products');
+		await addDoc(where, product);
+		console.log('Se añadió con exito');
+	} catch (error) {
+		console.error('Error adding document', error);
+	}
+};
+
 export const getPublications = async () => {
 	try {
 		const { db } = await getFirebaseInstance();
@@ -37,3 +50,4 @@ export const getPublications = async () => {
 		console.error('Error getting documents', error);
 	}
 };
+
