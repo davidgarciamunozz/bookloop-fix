@@ -1,6 +1,5 @@
 import * as components from './components/index';
-import './screens/main/main';
-
+import './screens/DASHBOARD/DASHBOARD';
 
 class AppContainer extends HTMLElement {
     constructor() {
