@@ -48,7 +48,7 @@ class Register extends HTMLElement {
 			this.shadowRoot.appendChild(title);
 
 			const pEmail = this.ownerDocument.createElement('input');
-			pEmail.placeholder = 'Enter your gmail';
+			pEmail.placeholder = 'Enter your email';
 			pEmail.addEventListener('change', this.changeEmail);
 			this.shadowRoot.appendChild(pEmail);
 
