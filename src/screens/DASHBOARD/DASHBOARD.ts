@@ -15,7 +15,7 @@ import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
 
-class Main extends HTMLElement {
+class Dashboard extends HTMLElement {
     user: UserInfo[] = [];
     post: Post[] = [];
     currentUserPic: string = '';
@@ -160,7 +160,7 @@ class Main extends HTMLElement {
 
 
             this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="../src/screens/main/main.css">
+            <link rel="stylesheet" href="../src/screens/DASHBOARD/DASHBOARD.css">
             `;
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(container);
@@ -168,5 +168,5 @@ class Main extends HTMLElement {
     }
 }
 
-customElements.define('main-page', Main);
-export default Main;
+customElements.define('dashboard-page', Dashboard);
+export default Dashboard;
