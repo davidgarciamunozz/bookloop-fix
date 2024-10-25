@@ -24,7 +24,7 @@ export const addPublications = async (product: any) => {
 		const { db } = await getFirebaseInstance();
 		const { collection, addDoc } = await import('firebase/firestore');
 
-		const where = collection(db, 'products');
+		const where = collection(db, 'publications');
 		await addDoc(where, product);
 		console.log('Se añadió con exito');
 	} catch (error) {
@@ -37,7 +37,7 @@ export const getPublications = async () => {
 		const { db } = await getFirebaseInstance();
 		const { collection, getDocs } = await import('firebase/firestore');
 
-		const where = collection(db, 'products');
+		const where = collection(db, 'publications');
 		const querySnapshot = await getDocs(where);
 		const data: any[] = [];
 
