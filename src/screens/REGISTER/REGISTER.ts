@@ -27,64 +27,33 @@ class Register extends HTMLElement {
         this.render();
     }
 
-    validateUserName(userName: string): string {
-        // Check if it starts with @
+    changeEmail = (e: any) => {
+        credentials.email = e.target.value;
+    }
+
+    changePassword = (e: any) => {
+        credentials.password = e.target.value;
+    }
+
+    changeName = (e: any) => {
+        credentials.name = e.target.value;
+    }
+
+    changeUserName = (e: any) => {
+        let userName = e.target.value;
+        // If the username does not start with @, we add it
         if (!userName.startsWith('@')) {
             userName = '@' + userName;
         }
-
-        // Verify that it only contains lowercase letters, numbers and allowed characters
-        const validPattern = /^@[a-z0-9\.\+\-\_]+$/;
-        if (!validPattern.test(userName)) {
-            throw new Error('The username can only contain lowercase letters, numbers, and the characters. + - _');
-        }
-
-        return userName;
+        // Replace spaces with underscores
+        userName = userName.replace(/\s+/g, '_');
+        // We convert to lowercase
+        userName = userName.toLowerCase();
+        credentials.userName = userName;
     }
 
-    changeEmail(e: any) {
-        const input = e.target as HTMLInputElement;
-        credentials.email = input.value;
-        input.classList.toggle('error', !input.value);
-    }
-
-    changePassword(e: any) {
-        const input = e.target as HTMLInputElement;
-        credentials.password = input.value;
-        input.classList.toggle('error', !input.value);
-    }
-
-    changeName(e: any) {
-        const input = e.target as HTMLInputElement;
-        credentials.name = input.value;
-        input.classList.toggle('error', !input.value);
-    }
-
-    changeUserName(e: any) {
-        const input = e.target as HTMLInputElement;
-        try {
-            credentials.userName = this.validateUserName(input.value);
-            input.classList.remove('error');
-            input.value = credentials.userName; // Update the input with the @ if it was added
-        } catch (error) {
-            input.classList.add('error');
-            if (error instanceof Error) {
-                alert(error.message);
-            }
-        }
-    }
-
-    validateForm(): boolean {
-        return (
-            credentials.email !== '' &&
-            credentials.password !== '' &&
-            credentials.name !== '' &&
-            credentials.userName !== ''
-        );
-    }
-
-    async submitForm() {
-        if (!this.validateForm()) {
+    submitForm = async () => {
+        if (!credentials.email || !credentials.password || !credentials.name || !credentials.userName) {
             alert('All fields are required');
             return;
         }
@@ -95,7 +64,6 @@ class Register extends HTMLElement {
 
     async render() {
         if (this.shadowRoot) {
-
             const title = this.ownerDocument.createElement('h1');
             title.innerText = 'Register';
             this.shadowRoot.appendChild(title);
@@ -110,26 +78,26 @@ class Register extends HTMLElement {
             pEmail.placeholder = 'Enter your email';
             pEmail.type = 'email';
             pEmail.required = true;
-            pEmail.addEventListener('input', this.changeEmail);
+            pEmail.addEventListener('change', this.changeEmail);
             form.appendChild(pEmail);
 
             const pPassword = this.ownerDocument.createElement('input');
             pPassword.placeholder = 'Enter your password';
             pPassword.type = 'password';
             pPassword.required = true;
-            pPassword.addEventListener('input', this.changePassword);
+            pPassword.addEventListener('change', this.changePassword);
             form.appendChild(pPassword);
 
             const pName = this.ownerDocument.createElement('input');
             pName.placeholder = 'Write your name';
             pName.required = true;
-            pName.addEventListener('input', this.changeName);
+            pName.addEventListener('change', this.changeName);
             form.appendChild(pName);
 
             const puserName = this.ownerDocument.createElement('input');
             puserName.placeholder = 'Write your user name';
             puserName.required = true;
-            puserName.addEventListener('input', this.changeUserName);
+            puserName.addEventListener('change', this.changeUserName);
             form.appendChild(puserName);
 
             const save = this.ownerDocument.createElement('button');
