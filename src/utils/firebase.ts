@@ -72,3 +72,17 @@ export const registerUser = async (credentials: any) => {
 		return false;
 	}
 };
+
+export const loginUser = async (email: string, password: string) => {
+	try {
+		const { auth } = await getFirebaseInstance();
+		const { signInWithEmailAndPassword } = await import('firebase/auth');
+
+		const userCredential = await signInWithEmailAndPassword(auth, email, password);
+		console.log(userCredential.user);
+		return true;
+	} catch (error) {
+		console.error(error);
+		return false;
+	}
+};
