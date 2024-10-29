@@ -6,6 +6,7 @@ import './screens/LOGIN/LOGIN';
 import './screens/DASHBOARD/DASHBOARD';
 import './screens/DISCOVERLANDING/DISCOVERLANDING';
 import './screens/CLUBSLANDING/CLUBSLANDING';
+import './screens/CLUBSMAIN/CLUBSMAIN';
 
 
 class AppContainer extends HTMLElement {
@@ -23,7 +24,7 @@ class AppContainer extends HTMLElement {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = '';
 			switch (appState.screen) {
-				
+
 				case Screens.REGISTER:
 					const register = this.ownerDocument.createElement('app-register');
 					this.shadowRoot.appendChild(register);
@@ -44,10 +45,15 @@ class AppContainer extends HTMLElement {
 					this.shadowRoot.appendChild(discoverlanding);
 					break;
 
-					case Screens.CLUBSLANDING:
-						const clubslanding = this.ownerDocument.createElement('app-clubs-landing');
-						this.shadowRoot.appendChild(clubslanding);
-						break;
+				case Screens.CLUBSLANDING:
+					const clubslanding = this.ownerDocument.createElement('app-clubs-landing');
+					this.shadowRoot.appendChild(clubslanding);
+					break;
+
+				case Screens.CLUBSMAIN:
+					const clubsmain = this.ownerDocument.createElement('app-clubs-main');
+					this.shadowRoot.appendChild(clubsmain);
+					break;
 
 				default:
 					break;
