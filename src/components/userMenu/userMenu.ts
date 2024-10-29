@@ -1,3 +1,7 @@
+import { dispatch } from '../../store/index';
+import { navigate } from '../../store/actions';
+import { Screens } from '../../types/store';
+
 export enum Attribute {
     'home' = 'home',
     'clubs' = 'clubs',
@@ -30,6 +34,10 @@ class UserMenu extends HTMLElement {
     connectedCallback() {
         this.render();
     }
+
+    // navegateToDiscover(){
+    //     dispatch(navigate(Screens.DISCOVER));
+    // }
 
     render() {
         if (this.shadowRoot) {
