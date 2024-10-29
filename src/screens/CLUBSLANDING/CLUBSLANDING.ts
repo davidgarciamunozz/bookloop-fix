@@ -41,7 +41,7 @@ class ClubsLanding extends HTMLElement {
             
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = '../src/screens/DISCOVERLANDING/DISCOVERLANDING.css';
+            link.href = '../src/screens/CLUBSLANDING/CLUBSLANDING.css';
             this.shadowRoot.appendChild(link);
 
             const navBar = this.ownerDocument.createElement('nav-bar');
