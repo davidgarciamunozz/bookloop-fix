@@ -37,16 +37,13 @@ class DiscoverLanding extends HTMLElement {
 
     render() {
         if (this.shadowRoot) {
-            // Primero limpiamos el shadowRoot
             this.shadowRoot.innerHTML = '';
             
-            // Agregamos el stylesheet
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = '../src/screens/DISCOVERLANDING/DISCOVERLANDING.css';
             this.shadowRoot.appendChild(link);
 
-            // Creamos los elementos
             const navBar = this.ownerDocument.createElement('nav-bar');
             navBar.setAttribute('icon', "../src/assets/logos/big_logo.png");
             navBar.setAttribute('img', "../src/assets/logos/medium_logo.png");
@@ -58,7 +55,6 @@ class DiscoverLanding extends HTMLElement {
             const userContainer = this.ownerDocument.createElement('section');
             userContainer.className = 'user-container';
 
-            // Agregamos los user cards
             this.user.forEach(userCard => {
                 userContainer.appendChild(userCard);
             });
@@ -98,11 +94,9 @@ class DiscoverLanding extends HTMLElement {
 
             container.appendChild(clubsContainer);
 
-            // Agregamos los elementos principales al shadowRoot
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(container);
             
-            console.log(container);
         }
     }
 }
