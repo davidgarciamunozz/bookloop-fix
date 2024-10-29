@@ -4,6 +4,7 @@ import { Screens } from './types/store';
 import './screens/REGISTER/REGISTER';
 import './screens/LOGIN/LOGIN';
 import './screens/DASHBOARD/DASHBOARD';
+import './screens/DISCOVERLANDING/DISCOVERLANDING';
 
 
 class AppContainer extends HTMLElement {
@@ -38,7 +39,7 @@ class AppContainer extends HTMLElement {
 					break;
 
 				case Screens.DISCOVERLANDING:
-					const discoverlanding = this.ownerDocument.createElement('app-dashboard');
+					const discoverlanding = this.ownerDocument.createElement('app-discover-landing');
 					this.shadowRoot.appendChild(discoverlanding);
 					break;
 
