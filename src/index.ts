@@ -1,5 +1,5 @@
 import * as components from './components/index';
-import { addObserver, appState  } from './store/index';
+import { addObserver, appState } from './store/index';
 import { Screens } from './types/store';
 import './screens/REGISTER/REGISTER';
 import './screens/LOGIN/LOGIN';
@@ -21,6 +21,7 @@ class AppContainer extends HTMLElement {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = '';
 			switch (appState.screen) {
+				
 				case Screens.REGISTER:
 					const register = this.ownerDocument.createElement('app-register');
 					this.shadowRoot.appendChild(register);
@@ -36,9 +37,15 @@ class AppContainer extends HTMLElement {
 					this.shadowRoot.appendChild(dashboard);
 					break;
 
+				case Screens.DISCOVERLANDING:
+					const discoverlanding = this.ownerDocument.createElement('app-dashboard');
+					this.shadowRoot.appendChild(discoverlanding);
+					break;
+
 				default:
 					break;
 			}
+			console.log('Current screen:', appState.screen);
 		}
 	}
 }
