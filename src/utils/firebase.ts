@@ -1,22 +1,24 @@
+import { browserLocalPersistence } from 'firebase/auth';
+
 let db: any;
 let auth: any;
 
-const getFirebaseInstance = async () => {
-    if (!db) {
-        const { firebaseConfig } = await import('./firebase.config');
-        const { getFirestore } = await import('firebase/firestore');
-        const { initializeApp } = await import('firebase/app');
-        const { getAuth } = await import('firebase/auth');
+export const getFirebaseInstance = async () => {
+	if (!db) {
+		const { firebaseConfig } = await import('./firebase.config');
+		const { getFirestore } = await import('firebase/firestore');
+		const { initializeApp } = await import('firebase/app');
+		const { getAuth } = await import('firebase/auth');
 
-        // Your web app's Firebase configuration
-        //IMPORTANT: delete the firebaseConfig when you push to a public repository
-        //firebaseConfig is in the .gitignore file
+		// Your web app's Firebase configuration
+		//IMPORTANT: delete the firebaseConfig when you push to a public repository
+		//firebaseConfig is in the .gitignore file
 
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-    }
-    return { db, auth };
+		const app = initializeApp(firebaseConfig);
+		db = getFirestore(app);
+		auth = getAuth(app);
+	}
+	return { db, auth };
 };
 
 export const addPublications = async (product: any) => {
@@ -76,13 +78,17 @@ export const registerUser = async (credentials: any) => {
 export const loginUser = async (email: string, password: string) => {
 	try {
 		const { auth } = await getFirebaseInstance();
-		const { signInWithEmailAndPassword } = await import('firebase/auth');
+		const { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } = await import('firebase/auth');
 
-		const userCredential = await signInWithEmailAndPassword(auth, email, password);
-		console.log(userCredential.user);
-		return true;
+		setPersistence(auth, browserLocalPersistence)
+			.then((() => {
+				return signInWithEmailAndPassword(auth, email, password);
+			})).catch((error: any) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log(errorCode, errorMessage);
+			});
 	} catch (error) {
 		console.error(error);
-		return false;
 	}
 };
