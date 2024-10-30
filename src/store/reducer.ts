@@ -16,6 +16,12 @@ export const reducer = (currentAction: any, currentState: any) => {
 				products: payload,
 			};
 
+		case Actions.SETUSERCREDENTIALS:
+			return {
+				...currentState,
+				user: payload,
+			};
+
 		default:
 			return currentState;
 	}
