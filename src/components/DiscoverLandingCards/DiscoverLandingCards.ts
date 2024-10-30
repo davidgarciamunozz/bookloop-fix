@@ -1,3 +1,7 @@
+import { dispatch } from '../../store/index';
+import { navigate } from '../../store/actions';
+import { Screens } from '../../types/store';
+
 export enum AttributeDiscoverLandingCards {
     'uid' = 'uid',
     'image' = 'image',
@@ -35,6 +39,9 @@ class DiscoverLandingCards extends HTMLElement {
     connectedCallback() {
         this.render();
     }
+    navegateToDiscoverMain() {
+        dispatch(navigate(Screens.DISCOVERMAIN));
+    }
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
@@ -70,6 +77,9 @@ class DiscoverLandingCards extends HTMLElement {
 
             container.appendChild(card);
         }
+
+        const navegateToDiscoverMain = this.shadowRoot?.querySelector('.button');
+        navegateToDiscoverMain?.addEventListener('click', this.navegateToDiscoverMain);
     }
 }
 
