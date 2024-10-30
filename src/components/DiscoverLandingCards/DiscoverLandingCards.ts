@@ -3,12 +3,14 @@ export enum AttributeDiscoverLandingCards {
     'image' = 'image',
     'name' = 'name',
     'members' = 'members',
+    'button' = 'button',
 }
 class DiscoverLandingCards extends HTMLElement {
     uid?: number;
     image?: string;
     name?: string;
     members?: string;
+    button?: string;
 
     static get observedAttributes() {
         return Object.keys(AttributeDiscoverLandingCards) as Array<AttributeDiscoverLandingCards>;
@@ -36,6 +38,37 @@ class DiscoverLandingCards extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
+            const container = this.ownerDocument.createElement('section');
+            container.className = 'container';
+            this.shadowRoot.appendChild(container);
+
+            const card = this.ownerDocument.createElement('div');
+            card.className = 'card';
+            container.appendChild(card);
+
+            const image = this.ownerDocument.createElement('img');
+            image.className = 'image';
+            image.src = this.image || 'No image found';
+            image.alt = this.name || 'No name found';
+            card.appendChild(image);
+
+            const name = this.ownerDocument.createElement('h2');
+            name.className = 'name';
+            name.textContent = this.name || 'No name found';
+            card.appendChild(name);
+
+            const members = this.ownerDocument.createElement('p');
+            members.className = 'members';
+            members.textContent = this.members || 'No members found';
+            card.appendChild(members);
+
+            const button = this.ownerDocument.createElement('button');
+            button.className = 'button';
+            button.textContent = this.button || 'No button found';
+            button.appendChild(this.ownerDocument.createTextNode('Join'));
+            card.appendChild(button);
+
+            container.appendChild(card);
         }
     }
 }
