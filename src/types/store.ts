@@ -3,6 +3,7 @@ export type Observer = { render: () => void } & HTMLElement;
 export type AppState = {
 	screen: string;
 	publications: [];
+	user: {};
 };
 
 export enum Screens {
@@ -18,4 +19,5 @@ export enum Screens {
 export enum Actions {
 	'NAVIGATE' = 'NAVIGATE',
 	'GETPUBLICATIONS' = 'GETPUBLICATIONS',
+	'SETUSERCREDENTIALS' = 'SETUSERCREDENTIALS',
 }
