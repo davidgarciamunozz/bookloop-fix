@@ -26,9 +26,8 @@ class Login extends HTMLElement {
 		credentials.password = e.target.value;
 	}
 
-	async submitForm() {
-		const resp = await loginUser(credentials.email, credentials.password);
-		resp ? dispatch(navigate(Screens.DASHBOARD)) : alert('Incorrect credentials or user does not exist');
+	submitForm() {
+		loginUser(credentials.email, credentials.password);
 	}
 
 	async render() {
