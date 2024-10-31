@@ -3,6 +3,8 @@ import { navigate } from '../../store/actions';
 import { Screens } from '../../types/store';
 import { registerUser } from '../../utils/firebase';
 
+
+
 const credentials = {
 	email: '',
 	password: '',
@@ -43,6 +45,13 @@ class Register extends HTMLElement {
 
 	async render() {
 		if (this.shadowRoot) {
+
+			const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/screens/REGISTER/REGISTER.css';
+            this.shadowRoot.appendChild(link);
+
+
 			const title = this.ownerDocument.createElement('h1');
 			title.innerText = 'Register';
 			this.shadowRoot.appendChild(title);

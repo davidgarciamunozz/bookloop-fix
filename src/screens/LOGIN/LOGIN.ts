@@ -32,24 +32,45 @@ class Login extends HTMLElement {
 
 	async render() {
 		if (this.shadowRoot) {
+			this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="../src/screens/LOGIN/LOGIN.css">
+            `;
+
+			const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/screens/LOGIN/LOGIN.css';
+            this.shadowRoot.appendChild(link);
+
+			const container = document.createElement('div');
+			container.className = 'form-container';
+
 			const title = this.ownerDocument.createElement('h1');
+			title.className = 'form-title';
 			title.innerText = 'Login';
 			this.shadowRoot.appendChild(title);
 
-			const pName = this.ownerDocument.createElement('input');
-			pName.placeholder = 'Email';
-			pName.addEventListener('change', this.changeEmail);
-			this.shadowRoot.appendChild(pName);
+			const pEmail = this.ownerDocument.createElement('input');
+			pEmail.className = 'form-input';
+			pEmail.placeholder = 'Email';
+			pEmail.required = true;
+			pEmail.addEventListener('change', this.changeEmail);
+			this.shadowRoot.appendChild(pEmail);
 
 			const pPassword = this.ownerDocument.createElement('input');
+			pPassword.className = 'form-input';
+			pPassword.type = 'password';
 			pPassword.placeholder = 'Password';
+			pPassword.required = true;
 			pPassword.addEventListener('change', this.changePassword);
 			this.shadowRoot.appendChild(pPassword);
 
 			const save = this.ownerDocument.createElement('button');
+			save.className = 'form-button';
 			save.innerText = 'Login';
 			save.addEventListener('click', this.submitForm);
 			this.shadowRoot.appendChild(save);
+
+			this.shadowRoot.appendChild(container);
 		}
 	}
 }

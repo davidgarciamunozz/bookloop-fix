@@ -1,9 +1,6 @@
 import * as components from '../../components/index';
 import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
-import '../../components/userMenu/userMenu';
-import '../../components/newPost/newPost';
-import '../../components/postComponent/post';
 import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
 import Post, { Attribute2 } from '../../components/postComponent/post';
@@ -81,82 +78,6 @@ class Dashboard extends HTMLElement {
                 userContainer.appendChild(userCard);
             });
 
-            const userMenu = this.ownerDocument.createElement('user-menu');
-            userMenu.setAttribute('home', '#');
-            userMenu.setAttribute('clubs', '#');
-            userMenu.setAttribute('discover', '#');
-            userMenu.setAttribute('help', '#');
-            userMenu.setAttribute('setting', '#');
-
-            userContainer.appendChild(userMenu);
-            container.appendChild(userContainer);
-
-            const postContainer = this.ownerDocument.createElement('section');
-            postContainer.className = 'post-container';
-
-
-            const newPost = this.ownerDocument.createElement('new-post');
-            newPost.setAttribute('userpic', this.currentUserPic);
-            newPost.setAttribute('text', 'Create new post');
-            newPost.setAttribute('buttontext', 'Text');
-            newPost.setAttribute('buttonimages', 'Images');
-            newPost.setAttribute('inputtext', 'Share something...');
-            newPost.setAttribute('inputimage', 'Drag and drop or upload media');
-            newPost.setAttribute('club', 'Select a Club');
-            newPost.setAttribute('post', 'Post');
-
-            postContainer.appendChild(newPost);
-            container.appendChild(postContainer);
-
-            // Posts & pop up
-            const postDashboard = this.ownerDocument.createElement('section');
-            postDashboard.className = 'post-dashboard';
-
-            if (dataPosts && Array.isArray(dataPosts)) {
-                dataPosts.forEach(dataPost => {
-                    const post = this.ownerDocument.createElement('post-component') as Post;
-
-                    post.setAttribute('clubpic', dataPost.clubpic);
-                    post.setAttribute('clubname', dataPost.clubname);
-                    post.setAttribute('image', dataPost.image);
-                    post.setAttribute('likes', dataPost.likes.toString());
-                    post.setAttribute('comments', dataPost.comments.toString());
-                    post.setAttribute('author', dataPost.author);
-                    post.setAttribute('desc', dataPost.desc);
-
-
-
-                    postDashboard.appendChild(post);
-                    this.post.push(post);
-                });
-            } else {
-                console.error('dataPosts is not an array or is undefined');
-            }
-
-            postContainer.appendChild(postDashboard);
-
-            // clubs
-            const clubsContainer = this.ownerDocument.createElement('section');
-            clubsContainer.className = 'clubs-container';
-
-            if (dataClubs && Array.isArray(dataClubs)) {
-                const clubsCard1 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
-                clubsCard1.setAttribute('cardtitle', 'Clubs');
-                clubsCard1.setAttribute('buttontext', 'Your Clubs');
-                clubsCard1.setAttribute('cardcolor', '#6471C7');
-                clubsCard1.setAttribute('buttoncolor', '#6471C7');
-                clubsContainer.appendChild(clubsCard1);
-
-                const clubsCard2 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
-                clubsCard2.setAttribute('cardtitle', 'Discover');
-                clubsCard2.setAttribute('buttontext', 'Discover now');
-                clubsCard2.setAttribute('cardcolor', '#C2BE4D');
-                clubsCard2.setAttribute('buttoncolor', '#C2BE4D');
-                clubsContainer.appendChild(clubsCard2);
-            }
-
-            console.log(clubsContainer);
-            container.appendChild(clubsContainer);
 
 
             this.shadowRoot.innerHTML = `
