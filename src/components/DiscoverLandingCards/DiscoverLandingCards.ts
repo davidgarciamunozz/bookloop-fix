@@ -9,6 +9,7 @@ export enum AttributeDiscoverLandingCards {
     'members' = 'members',
     'button' = 'button',
 }
+
 class DiscoverLandingCards extends HTMLElement {
     uid?: number;
     image?: string;
@@ -36,16 +37,22 @@ class DiscoverLandingCards extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         addObserver(this);
+        // Inicializar propiedades
+        this.uid = undefined;
+        this.image = '';
+        this.name = '';
+        this.members = '';
+        this.button = '';
     }
 
     async connectedCallback() {
         if (appState.cards.length === 0) {
             const action = await getDiscoverCardsAction();
             dispatch(action);
-        } else  {
+        } else {
             this.render();
-        };
-    };
+        }
+    }
 
     navegateToDiscoverMain() {
         dispatch(navigate(Screens.DISCOVERMAIN));
@@ -54,13 +61,14 @@ class DiscoverLandingCards extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
-            const container = this.ownerDocument.createElement('section');
-            container.className = 'container';
-            this.shadowRoot.appendChild(container);
+            
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/components/DiscoverLandingCards/DiscoverLandingCards.css';
+            this.shadowRoot.appendChild(link);
 
             const card = this.ownerDocument.createElement('div');
             card.className = 'card';
-            container.appendChild(card);
 
             const image = this.ownerDocument.createElement('img');
             image.className = 'image';
@@ -80,15 +88,13 @@ class DiscoverLandingCards extends HTMLElement {
 
             const button = this.ownerDocument.createElement('button');
             button.className = 'button';
-            button.textContent = this.button || 'No button found';
-            button.appendChild(this.ownerDocument.createTextNode('Join'));
+            button.textContent = 'Join';
             card.appendChild(button);
 
-            container.appendChild(card);
-        }
+            this.shadowRoot.appendChild(card);
 
-        const navegateToDiscoverMain = this.shadowRoot?.querySelector('.button');
-        navegateToDiscoverMain?.addEventListener('click', this.navegateToDiscoverMain);
+            button.addEventListener('click', this.navegateToDiscoverMain.bind(this));
+        }
     }
 }
 
