@@ -83,6 +83,9 @@ class DiscoverLanding extends HTMLElement {
             const postContainer = this.ownerDocument.createElement('section');
             postContainer.className = 'post-container';
 
+            const discoverCardContainer = this.ownerDocument.createElement('div');
+            discoverCardContainer.className = 'discover-card-container';
+            postContainer.appendChild(discoverCardContainer);
 
             // Nueva implementación usando el componente DiscoverLandingCards
             appState.cards?.forEach((card: any) => {
@@ -92,7 +95,7 @@ class DiscoverLanding extends HTMLElement {
                 discoverCard.setAttribute(AttributeDiscoverLandingCards.name, card.name);
                 discoverCard.setAttribute(AttributeDiscoverLandingCards.members, card.members);
                 discoverCard.setAttribute(AttributeDiscoverLandingCards.button, card.button);
-                postContainer.appendChild(discoverCard);
+                discoverCardContainer.appendChild(discoverCard);
             });
 
             container.appendChild(postContainer);
