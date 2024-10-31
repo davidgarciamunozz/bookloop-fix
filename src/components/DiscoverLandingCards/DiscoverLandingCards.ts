@@ -1,5 +1,5 @@
-import { dispatch } from '../../store/index';
-import { navigate } from '../../store/actions';
+import { dispatch, addObserver, appState } from '../../store/index';
+import { navigate, getDiscoverCardsAction } from '../../store/actions';
 import { Screens } from '../../types/store';
 
 export enum AttributeDiscoverLandingCards {
@@ -35,13 +35,22 @@ class DiscoverLandingCards extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        addObserver(this);
     }
-    connectedCallback() {
-        this.render();
-    }
+
+    async connectedCallback() {
+        if (appState.cards.length === 0) {
+            const action = await getDiscoverCardsAction();
+            dispatch(action);
+        } else  {
+            this.render();
+        };
+    };
+
     navegateToDiscoverMain() {
         dispatch(navigate(Screens.DISCOVERMAIN));
     }
+    
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
