@@ -23,6 +23,7 @@ const initialState: AppState = {
 	screen: 'LOGIN',
 	publications: [],
 	user: {},
+	cards: [],
 };
 
 export let appState = initialState;
