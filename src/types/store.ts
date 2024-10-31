@@ -4,6 +4,7 @@ export type AppState = {
 	screen: string;
 	publications: [];
 	user: {};
+	cards: [],
 };
 
 export enum Screens {
@@ -20,4 +21,5 @@ export enum Actions {
 	'NAVIGATE' = 'NAVIGATE',
 	'GETPUBLICATIONS' = 'GETPUBLICATIONS',
 	'SETUSERCREDENTIALS' = 'SETUSERCREDENTIALS',
+	'GETDISCOVERCARDSACTION' = 'GETDISCOVERCARDSACTION',
 }
