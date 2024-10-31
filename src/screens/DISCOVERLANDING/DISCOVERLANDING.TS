@@ -15,13 +15,6 @@ import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../compo
 import { appState, addObserver, dispatch } from '../../store/index';
 import { getDiscoverCardsAction } from '../../store/actions';
 
-const card = {
-    uid: 1,
-    image: 'https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    name: 'Discover 1',
-    members: '1000',
-    button: 'Join',
-};
 class DiscoverLanding extends HTMLElement {
     user: UserInfo[] = [];
     currentUserPic: string = '';
@@ -44,7 +37,6 @@ class DiscoverLanding extends HTMLElement {
     }
 
     async connectedCallback() {
-        // Fetch cards data if not already present
         if (appState.cards.length === 0) {
             const action = await getDiscoverCardsAction();
             if (action) {
@@ -90,30 +82,20 @@ class DiscoverLanding extends HTMLElement {
 
             const postContainer = this.ownerDocument.createElement('section');
             postContainer.className = 'post-container';
-            container.appendChild(postContainer);
 
+
+            // Nueva implementación usando el componente DiscoverLandingCards
             appState.cards?.forEach((card: any) => {
-                const cardContainer = this.ownerDocument.createElement('div');
+                const discoverCard = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.uid, String(card.uid));
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.image, card.image);
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.name, card.name);
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.members, card.members);
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.button, card.button);
+                postContainer.appendChild(discoverCard);
+            });
 
-                const image = this.ownerDocument.createElement('img');
-                image.src = card.image || 'No image found';
-                image.alt = card.name || 'No name found';
-                cardContainer.appendChild(image);
-
-                const name = this.ownerDocument.createElement('h2');
-                name.textContent = card.name || 'No name found';
-                cardContainer.appendChild(name);
-
-                const members = this.ownerDocument.createElement('p');
-                members.textContent = card.members || 'No members found';
-                cardContainer.appendChild(members);
-
-                const button = this.ownerDocument.createElement('button');
-                button.textContent = card.button || 'No button found';
-                cardContainer.appendChild(button);
-
-                postContainer.appendChild(cardContainer);
-            })         
+            container.appendChild(postContainer);
 
             const clubsContainer = this.ownerDocument.createElement('section');
             clubsContainer.className = 'clubs-container';
