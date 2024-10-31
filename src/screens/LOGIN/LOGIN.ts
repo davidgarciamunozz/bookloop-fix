@@ -41,10 +41,10 @@ class Login extends HTMLElement {
 			pName.addEventListener('change', this.changeEmail);
 			this.shadowRoot.appendChild(pName);
 
-			const pPrice = this.ownerDocument.createElement('input');
-			pPrice.placeholder = 'Password';
-			pPrice.addEventListener('change', this.changePassword);
-			this.shadowRoot.appendChild(pPrice);
+			const pPassword = this.ownerDocument.createElement('input');
+			pPassword.placeholder = 'Password';
+			pPassword.addEventListener('change', this.changePassword);
+			this.shadowRoot.appendChild(pPassword);
 
 			const save = this.ownerDocument.createElement('button');
 			save.innerText = 'Login';
