@@ -92,3 +92,22 @@ export const loginUser = async (email: string, password: string) => {
 		console.error(error);
 	}
 };
+
+export const getDiscoverCards = async () => {
+	try {
+		const { db } = await getFirebaseInstance();
+		const { collection, getDocs } = await import('firebase/firestore');
+
+		const where = collection(db, 'discover');
+		const querySnapshot = await getDocs(where);
+		const data: any[] = [];
+
+		querySnapshot.forEach((doc) => {
+			data.push(doc.data());
+		});
+
+		return data;
+	} catch (error) {
+		console.error('Error getting documents', error);
+	}
+};
