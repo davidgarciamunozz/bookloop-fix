@@ -10,7 +10,18 @@ import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
+import '../../components/DiscoverLandingCards/DiscoverLandingCards';
+import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../components/DiscoverLandingCards/DiscoverLandingCards';
+import { appState, addObserver, dispatch } from '../../store/index';
+import { getDiscoverCardsAction } from '../../store/actions';
 
+const card = {
+    uid: 1,
+    image: 'https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    name: 'Discover 1',
+    members: '1000',
+    button: 'Join',
+};
 class DiscoverLanding extends HTMLElement {
     user: UserInfo[] = [];
     currentUserPic: string = '';
@@ -18,6 +29,7 @@ class DiscoverLanding extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        addObserver(this);
 
         this.currentUserPic = dataUsers[0].userpic;
 
@@ -31,7 +43,14 @@ class DiscoverLanding extends HTMLElement {
         });
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        // Fetch cards data if not already present
+        if (appState.cards.length === 0) {
+            const action = await getDiscoverCardsAction();
+            if (action) {
+                dispatch(action);
+            }
+        }
         this.render();
     }
 
@@ -73,6 +92,29 @@ class DiscoverLanding extends HTMLElement {
             postContainer.className = 'post-container';
             container.appendChild(postContainer);
 
+            appState.cards?.forEach((card: any) => {
+                const cardContainer = this.ownerDocument.createElement('div');
+
+                const image = this.ownerDocument.createElement('img');
+                image.src = card.image || 'No image found';
+                image.alt = card.name || 'No name found';
+                cardContainer.appendChild(image);
+
+                const name = this.ownerDocument.createElement('h2');
+                name.textContent = card.name || 'No name found';
+                cardContainer.appendChild(name);
+
+                const members = this.ownerDocument.createElement('p');
+                members.textContent = card.members || 'No members found';
+                cardContainer.appendChild(members);
+
+                const button = this.ownerDocument.createElement('button');
+                button.textContent = card.button || 'No button found';
+                cardContainer.appendChild(button);
+
+                postContainer.appendChild(cardContainer);
+            })         
+
             const clubsContainer = this.ownerDocument.createElement('section');
             clubsContainer.className = 'clubs-container';
 
@@ -96,7 +138,6 @@ class DiscoverLanding extends HTMLElement {
 
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(container);
-            
         }
     }
 }
