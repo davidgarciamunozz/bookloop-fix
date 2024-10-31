@@ -1,17 +1,8 @@
-/* Container styles */
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    justify-content: center;
-}
-
 /* Card styles */
 .card {
     position: relative;
     width: 280px;
-    background-color: #1a1a1a;
+    background-color: #F9F5F3;
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease;
@@ -44,7 +35,7 @@
 
 /* Members count styles */
 .members {
-    color: #666;
+    color: #5c4339;
     font-size: 0.9rem;
     margin: 0 16px 16px;
 }
@@ -52,7 +43,7 @@
 /* Button styles */
 .button {
     background-color: #b4b13d;
-    color: #000;
+    color: #F9F5F3;
     border: none;
     padding: 8px 24px;
     border-radius: 20px;
@@ -64,21 +55,6 @@
 
 .button:hover {
     background-color: #ccc83f;
-}
-
-/* Dark mode optimization */
-@media (prefers-color-scheme: dark) {
-    .card {
-        background-color: #1a1a1a;
-    }
-    
-    .name {
-        color: #b4b13d;
-    }
-    
-    .members {
-        color: #999;
-    }
 }
 
 /* Responsive adjustments */
