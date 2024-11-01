@@ -29,27 +29,79 @@ class Login extends HTMLElement {
 	submitForm() {
 		loginUser(credentials.email, credentials.password);
 	}
+	
+	redirectToRegister() {
+		dispatch(navigate(Screens.REGISTER));
+	}
 
 	async render() {
 		if (this.shadowRoot) {
+			this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="../src/screens/LOGIN/LOGIN.css">
+
+
+			
+            `;
+			
+
+			const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/screens/LOGIN/LOGIN.css';
+            this.shadowRoot.appendChild(link);
+
+			const container = document.createElement('section');
+			container.className = 'form-container';
+
 			const title = this.ownerDocument.createElement('h1');
-			title.innerText = 'Login';
+			title.className = 'form-title';
+			title.innerText = 'Hello again!';
 			this.shadowRoot.appendChild(title);
+			
 
-			const pName = this.ownerDocument.createElement('input');
-			pName.placeholder = 'Email';
-			pName.addEventListener('change', this.changeEmail);
-			this.shadowRoot.appendChild(pName);
+			const desc = this.ownerDocument.createElement('p');
+			desc.className = 'form-desc';
+			desc.innerText = 'Welcome back, we missed you.';
+			this.shadowRoot.appendChild(desc);
 
-			const pPrice = this.ownerDocument.createElement('input');
-			pPrice.placeholder = 'Password';
-			pPrice.addEventListener('change', this.changePassword);
-			this.shadowRoot.appendChild(pPrice);
+
+			const pEmail = this.ownerDocument.createElement('input');
+			pEmail.className = 'form-input';
+			pEmail.placeholder = 'Enter e-mail';
+			pEmail.required = true;
+			pEmail.addEventListener('change', this.changeEmail);
+
+			const pPassword = this.ownerDocument.createElement('input');
+			pPassword.className = 'form-input';
+			pPassword.type = 'password';
+			pPassword.placeholder = 'Enter password';
+			pPassword.required = true;
+			pPassword.addEventListener('change', this.changePassword);
+
+			
+			const redirec = this.ownerDocument.createElement('h4');
+			redirec.className = 'form-redirec';
+			redirec.innerText = 'Not a member? Register now!';
+			redirec.addEventListener('click', () => this.redirectToRegister());
 
 			const save = this.ownerDocument.createElement('button');
+			save.className = 'form-button';
 			save.innerText = 'Login';
 			save.addEventListener('click', this.submitForm);
-			this.shadowRoot.appendChild(save);
+
+
+			const form = document.createElement('div')
+			form.className = 'form-div';
+			form.appendChild(title)
+			form.appendChild(desc)
+			form.appendChild(pEmail)
+			form.appendChild(pPassword)
+			form.appendChild(redirec)
+			form.appendChild(save)
+
+
+			container.appendChild(form)
+
+			this.shadowRoot.appendChild(container);
 		}
 	}
 }

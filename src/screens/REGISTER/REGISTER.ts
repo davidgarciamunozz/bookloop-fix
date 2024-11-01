@@ -3,6 +3,8 @@ import { navigate } from '../../store/actions';
 import { Screens } from '../../types/store';
 import { registerUser } from '../../utils/firebase';
 
+
+
 const credentials = {
 	email: '',
 	password: '',
@@ -41,41 +43,79 @@ class Register extends HTMLElement {
 		resp ? dispatch(navigate(Screens.LOGIN)) : alert('Could not create user');
 	}
 
+	redirectToLogin() {
+		dispatch(navigate(Screens.LOGIN));
+	}
+
 	async render() {
 		if (this.shadowRoot) {
-			const title = this.ownerDocument.createElement('h1');
-			title.innerText = 'Register';
-			this.shadowRoot.appendChild(title);
 
-			const pEmail = this.ownerDocument.createElement('input');
-			pEmail.placeholder = 'Email';
-			pEmail.required = true;
-			pEmail.addEventListener('change', this.changeEmail);
-			this.shadowRoot.appendChild(pEmail);
+			const link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.href = '../src/screens/REGISTER/REGISTER.css';
+			this.shadowRoot.appendChild(link);
 
-			const pPassword = this.ownerDocument.createElement('input');
-			pPassword.placeholder = 'Password';
-			pPassword.type = 'password';
-			pPassword.required = true;
-			pPassword.addEventListener('change', this.changePassword);
-			this.shadowRoot.appendChild(pPassword);
+			const container = document.createElement('section');
+			container.className = 'form-container';
 
-			const pName = this.ownerDocument.createElement('input');
+			const form = document.createElement('div');
+			form.className = 'form-div';
+
+			const title = document.createElement('h1');
+			title.innerText = 'Its nice to meet you :)';
+			title.className = 'form-title';
+			form.appendChild(title);
+
+			const desc = this.ownerDocument.createElement('p');
+			desc.className = 'form-desc';
+			desc.innerText = 'Allow us to know you. We are glad you are here.';
+			form.appendChild(desc);
+
+
+			// Campos del formulario
+
+			const pName = document.createElement('input');
 			pName.placeholder = 'Full name';
+			pName.className = 'form-input';
 			pName.required = true;
 			pName.addEventListener('change', this.changeName);
-			this.shadowRoot.appendChild(pName);
+			form.appendChild(pName);
 
-			const pUserName = this.ownerDocument.createElement('input');
+			const pUserName = document.createElement('input');
 			pUserName.placeholder = 'User name';
+			pUserName.className = 'form-input';
 			pUserName.required = true;
 			pUserName.addEventListener('change', this.changeAge);
-			this.shadowRoot.appendChild(pUserName);
+			form.appendChild(pUserName);
 
-			const save = this.ownerDocument.createElement('button');
-			save.innerText = 'Register';
+						const pEmail = document.createElement('input');
+			pEmail.placeholder = 'Email';
+			pEmail.className = 'form-input';
+			pEmail.required = true;
+			pEmail.addEventListener('change', this.changeEmail);
+			form.appendChild(pEmail);
+
+			const pPassword = document.createElement('input');
+			pPassword.placeholder = 'Password';
+			pPassword.type = 'password';
+			pPassword.className = 'form-input';
+			pPassword.required = true;
+			pPassword.addEventListener('change', this.changePassword);
+			form.appendChild(pPassword);
+
+
+			// Botón de registro
+			const save = document.createElement('button');
+			save.innerText = 'Start now';
+			save.className = 'form-button';
 			save.addEventListener('click', this.submitForm);
-			this.shadowRoot.appendChild(save);
+			form.appendChild(save);
+
+
+
+			container.appendChild(form);
+
+			this.shadowRoot.appendChild(container);
 		}
 	}
 }

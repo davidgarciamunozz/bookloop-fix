@@ -14,6 +14,7 @@ import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
+import '../../components/logoutButton/logoutButton'; 
 
 class Dashboard extends HTMLElement {
     user: UserInfo[] = [];
@@ -158,11 +159,15 @@ class Dashboard extends HTMLElement {
             console.log(clubsContainer);
             container.appendChild(clubsContainer);
 
+            const logoutButton = this.ownerDocument.createElement('logout-button');
+            logoutButton.setAttribute('text', 'Log out');
+            logoutButton.className = 'logout-button'
 
             this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="../src/screens/DASHBOARD/DASHBOARD.css">
             `;
             this.shadowRoot.appendChild(navBar);
+            this.shadowRoot.appendChild(logoutButton);
             this.shadowRoot.appendChild(container);
         }
     }
