@@ -10,7 +10,11 @@ import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
+import '../../components/DiscoverLandingCards/DiscoverLandingCards';
+import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../components/DiscoverLandingCards/DiscoverLandingCards';
 import '../../components/banner/banner';
+import { appState, addObserver, dispatch } from '../../store/index';
+import { getClubsAction } from '../../store/actions';
 import Banner, { AttributeBanner } from '../../components/banner/banner';
 
 class ClubsLanding extends HTMLElement {
@@ -33,7 +37,13 @@ class ClubsLanding extends HTMLElement {
         });
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        if (appState.clubs.length === 0) {
+            const action = await getClubsAction();
+            if (action) {
+                dispatch(action);
+            }
+        }
         this.render();
     }
 
@@ -84,6 +94,22 @@ class ClubsLanding extends HTMLElement {
             banner.setAttribute(AttributeBanner.image, 'https://github.com/ItsSilva/bookloop/blob/juanito/src/assets/bannerIMG/handBanner.png?raw=true');
             banner.setAttribute('bg-color', '#6471c7');
             postContainer.appendChild(banner);
+
+            const discoverClubsContainer = this.ownerDocument.createElement('div');
+            discoverClubsContainer.className = 'discover-card-container';
+            postContainer.appendChild(discoverClubsContainer);
+
+            appState.clubs?.forEach((club: any) => {
+                const discoverClubs = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
+                discoverClubs.setAttribute(AttributeDiscoverLandingCards.uid, String(club.uid));
+                discoverClubs.setAttribute(AttributeDiscoverLandingCards.image, club.image);
+                discoverClubs.setAttribute(AttributeDiscoverLandingCards.name, club.name);
+                discoverClubs.setAttribute(AttributeDiscoverLandingCards.members, club.members);
+                discoverClubs.setAttribute(AttributeDiscoverLandingCards.button, club.button);
+                discoverClubsContainer.appendChild(discoverClubs);
+            });
+
+            container.appendChild(postContainer);
 
             if (dataClubs && Array.isArray(dataClubs)) {
                 const clubsCard1 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
