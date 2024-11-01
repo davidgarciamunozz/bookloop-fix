@@ -57,7 +57,11 @@ class Banner extends HTMLElement {
             imageContainer.className = 'image-container';
             container.appendChild(imageContainer);
 
-
+            // Create image element
+            const image = this.ownerDocument.createElement('img');
+            image.className = 'image';
+            image.src = this.image? this.image : '';
+            imageContainer.appendChild(image);
         }
     }
 }
