@@ -31,7 +31,7 @@ export const reducer = (currentAction: any, currentState: any) => {
 		case Actions.GETUSERNAME:
 			return {
 				...currentState,
-				cards: payload,
+				user: payload,
 			};
 
 		default:
