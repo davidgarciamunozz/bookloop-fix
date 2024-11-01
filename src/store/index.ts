@@ -25,6 +25,7 @@ const initialState: AppState = {
 	publications: [],
 	user: {},
 	cards: [],
+	clubs: [],
 };
 
 export let appState = initialState;
