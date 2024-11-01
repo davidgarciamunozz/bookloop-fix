@@ -57,15 +57,17 @@ class Register extends HTMLElement {
 
 			const title = this.ownerDocument.createElement('h1');
 			title.innerText = 'Register';
-			this.shadowRoot.appendChild(title);
+			title.className = 'form-title';
 
 			const pEmail = this.ownerDocument.createElement('input');
 			pEmail.placeholder = 'Email';
+			pEmail.className = 'form-input';
 			pEmail.required = true;
 			pEmail.addEventListener('change', this.changeEmail);
 			this.shadowRoot.appendChild(pEmail);
 
 			const pPassword = this.ownerDocument.createElement('input');
+			pPassword.className = 'form-input';
 			pPassword.placeholder = 'Password';
 			pPassword.type = 'password';
 			pPassword.required = true;
@@ -73,18 +75,21 @@ class Register extends HTMLElement {
 			this.shadowRoot.appendChild(pPassword);
 
 			const pName = this.ownerDocument.createElement('input');
+			pName.className = 'form-input';
 			pName.placeholder = 'Full name';
 			pName.required = true;
 			pName.addEventListener('change', this.changeName);
 			this.shadowRoot.appendChild(pName);
 
 			const pUserName = this.ownerDocument.createElement('input');
+			pUserName.className = 'form-input';
 			pUserName.placeholder = 'User name';
 			pUserName.required = true;
 			pUserName.addEventListener('change', this.changeAge);
 			this.shadowRoot.appendChild(pUserName);
 
 			const save = this.ownerDocument.createElement('button');
+			save.className = 'form-button';
 			save.innerText = 'Register';
 			save.addEventListener('click', this.submitForm);
 			this.shadowRoot.appendChild(save);
