@@ -52,6 +52,9 @@ class Register extends HTMLElement {
             this.shadowRoot.appendChild(link);
 
 
+			const container = document.createElement('section');
+			container.className = 'form-container';
+
 			const title = this.ownerDocument.createElement('h1');
 			title.innerText = 'Register';
 			this.shadowRoot.appendChild(title);
