@@ -1,3 +1,7 @@
+import { dispatch, addObserver, appState } from '../../store/index';
+import { navigate, getDiscoverCardsAction } from '../../store/actions';
+import { Screens } from '../../types/store';
+
 export enum AttributeUserInfo {
     'background' = 'background',
     'userpic' = 'userpic',
