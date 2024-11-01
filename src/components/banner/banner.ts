@@ -40,6 +40,18 @@ class Banner extends HTMLElement {
             textContainer.className = 'action-user-element';
             container.appendChild(textContainer);
 
+            // Create title element
+            const title = this.ownerDocument.createElement('h1');
+            title.className = 'title';
+            title.textContent = this.utitle? this.utitle : 'No title provided';
+            textContainer.appendChild(title);
+
+            // Create text element
+            const text = this.ownerDocument.createElement('p');
+            text.className = 'text';
+            text.textContent = this.text? this.text : 'No text provided';
+            textContainer.appendChild(text);
+
 
         }
     }
