@@ -22,11 +22,17 @@ export const reducer = (currentAction: any, currentState: any) => {
 				user: payload,
 			};
 
-			case Actions.GETDISCOVERCARDSACTION:
-				return {
-					...currentState,
-					cards: payload,
-				};
+		case Actions.GETDISCOVERCARDSACTION:
+			return {
+				...currentState,
+				cards: payload,
+			};
+
+		case Actions.GETUSERNAME:
+			return {
+				...currentState,
+				cards: payload,
+			};
 
 		default:
 			return currentState;
