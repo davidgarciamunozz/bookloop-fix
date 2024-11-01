@@ -14,6 +14,8 @@ import '../../components/DiscoverLandingCards/DiscoverLandingCards';
 import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../components/DiscoverLandingCards/DiscoverLandingCards';
 import { appState, addObserver, dispatch } from '../../store/index';
 import { getDiscoverCardsAction } from '../../store/actions';
+import '../../components/banner/banner';
+import  Banner, { AttributeBanner } from '../../components/banner/banner';
 
 class DiscoverLanding extends HTMLElement {
     user: UserInfo[] = [];
@@ -99,6 +101,8 @@ class DiscoverLanding extends HTMLElement {
             });
 
             container.appendChild(postContainer);
+
+            //
 
             const clubsContainer = this.ownerDocument.createElement('section');
             clubsContainer.className = 'clubs-container';
