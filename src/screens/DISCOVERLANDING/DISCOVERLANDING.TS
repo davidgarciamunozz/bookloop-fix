@@ -89,6 +89,7 @@ class DiscoverLanding extends HTMLElement {
             banner.setAttribute(AttributeBanner.utitle, 'New worlds are waiting for you!');
             banner.setAttribute(AttributeBanner.text, 'Join and discover stories with fantastic worlds, charismatic characters and, most importantly, interact with people who have the same tastes as you.');
             banner.setAttribute(AttributeBanner.image, 'https://github.com/ItsSilva/bookloop/blob/juanito/src/assets/bannerIMG/bookBanner.png?raw=true');
+            banner.setAttribute('bg-color', '#b4b13d');
             postContainer.appendChild(banner);
 
             const discoverCardContainer = this.ownerDocument.createElement('div');
