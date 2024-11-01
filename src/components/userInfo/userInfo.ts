@@ -86,7 +86,7 @@ class UserInfo extends HTMLElement {
             containerText.appendChild(nameElement);
 
             const atElement = this.ownerDocument.createElement('p');
-            atElement.textContent = this.username || 'No At';
+            atElement.textContent = this.username || 'No user name';
             containerText.appendChild(atElement);
 
             this.shadowRoot.appendChild(container);
