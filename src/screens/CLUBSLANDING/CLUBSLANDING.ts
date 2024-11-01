@@ -10,6 +10,8 @@ import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
+import '../../components/banner/banner';
+import Banner, { AttributeBanner } from '../../components/banner/banner';
 
 class ClubsLanding extends HTMLElement {
     user: UserInfo[] = [];
@@ -75,6 +77,13 @@ class ClubsLanding extends HTMLElement {
 
             const clubsContainer = this.ownerDocument.createElement('section');
             clubsContainer.className = 'clubs-container';
+
+            const banner = this.ownerDocument.createElement('banner-component') as Banner;
+            banner.setAttribute(AttributeBanner.utitle, 'Millions of clubs picked for you!');
+            banner.setAttribute(AttributeBanner.text, 'Register in any club for FREE and start experiencing a new way of living your favorite literary stories.');
+            banner.setAttribute(AttributeBanner.image, 'https://github.com/ItsSilva/bookloop/blob/juanito/src/assets/bannerIMG/handBanner.png?raw=true');
+            banner.setAttribute('bg-color', '#6471c7');
+            postContainer.appendChild(banner);
 
             if (dataClubs && Array.isArray(dataClubs)) {
                 const clubsCard1 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
