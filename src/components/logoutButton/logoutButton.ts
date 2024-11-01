@@ -1,3 +1,7 @@
+import { appState, dispatch } from "../../store";
+import { navigate, setUserCredentials } from "../../store/actions";
+import { Screens } from "../../types/store";
+
 class LogoutButton extends HTMLElement {
     constructor() {
         super();
@@ -6,6 +10,17 @@ class LogoutButton extends HTMLElement {
 
     connectedCallback() {
         this.render();
+    }
+
+    logOutUser(){
+        if (appState.user !== null || '') {
+            localStorage.clear()
+            dispatch(setUserCredentials(''));
+            appState.user = "";
+        }
+        sessionStorage.clear();
+        dispatch(navigate(Screens.REGISTER));
+        location.reload();
     }
 
     render() {
