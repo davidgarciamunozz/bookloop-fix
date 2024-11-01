@@ -32,9 +32,9 @@ export const getDiscoverCardsAction = async () => {
 };
 
 export const getUserNameAction = async () => {
-	const cards = await getUserName();
+	const user = await getUserName();
 	return {
 		action: Actions.GETUSERNAME,
-		payload: cards,
+		payload: user,
 	};
 };
