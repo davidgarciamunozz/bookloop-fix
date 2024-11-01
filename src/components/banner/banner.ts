@@ -68,8 +68,6 @@ class Banner extends HTMLElement {
             image.className = 'image';
             image.src = this.image? this.image : '';
             imageContainer.appendChild(image);
-
-            // Test Message
         }
     }
 }
