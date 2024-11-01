@@ -4,7 +4,7 @@ export type AppState = {
 	screen: string;
 	publications: [];
 	user: {};
-	cards: [],
+	cards: any[],
 };
 
 export enum Screens {
