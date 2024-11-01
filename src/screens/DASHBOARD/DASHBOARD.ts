@@ -35,19 +35,20 @@ class Dashboard extends HTMLElement {
             userCard.setAttribute('background', dataUser.background);
             userCard.setAttribute('userpic', dataUser.userpic);
             userCard.setAttribute('name', dataUser.name);
-            userCard.setAttribute('at', dataUser.at);
+            userCard.setAttribute('username', dataUser.username);
             this.user.push(userCard);
         });
     }
 
     async connectedCallback() {
         this.addEventListener('toggle-user-container', () => this.toggleUserContainer());
-        if (appState.user) {
-            const action = await getUserNameAction();
-            dispatch(action);
-        } else {
-            this.render();
-        }
+        // if (appState.user) {
+        //     const action = await getUserNameAction();
+        //     dispatch(action);
+        // } else {
+        //     this.render();
+        // }
+        this.render();
     }
 
     toggleUserContainer() {
