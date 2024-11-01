@@ -19,7 +19,11 @@
     margin-left: 2rem;
 }
 
-
+.logout-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
 
 .user-container.hidden {
     transform: translateX(-100%);

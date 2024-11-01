@@ -12,15 +12,14 @@ class LogoutButton extends HTMLElement {
         this.render();
     }
 
-    logOutUser(){
-        if (appState.user !== null || '') {
-            localStorage.clear()
-            dispatch(setUserCredentials(''));
-            appState.user = "";
-        }
-        sessionStorage.clear();
-        dispatch(navigate(Screens.REGISTER));
-        location.reload();
+    logOutUser() {
+        localStorage.clear();  // Limpia el almacenamiento local
+        sessionStorage.clear(); // Limpia el almacenamiento de sesión
+
+        dispatch(setUserCredentials('')); // Limpia las credenciales de usuario
+        dispatch(navigate(Screens.LOGIN)); // Navega a la pantalla de registro
+
+        location.reload(); 
     }
 
     render() {
@@ -36,7 +35,7 @@ class LogoutButton extends HTMLElement {
     }
 
     handleLogout() {
-        //logOutUser(); 
+        this.logOutUser(); 
     }
 }
 
