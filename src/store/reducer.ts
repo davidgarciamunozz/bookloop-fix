@@ -28,6 +28,12 @@ export const reducer = (currentAction: any, currentState: any) => {
 				cards: payload,
 			};
 
+		case Actions.GETCLUBSARDSACTION:
+			return {
+				...currentState,
+				clubs: payload,
+			};
+
 		case Actions.GETUSERNAME:
 			return {
 				...currentState,
