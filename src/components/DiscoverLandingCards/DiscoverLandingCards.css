@@ -1,7 +1,17 @@
-/* Card styles */
+.discover-card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 24px;
+    justify-items: center;
+    width: 100%;
+}
+
 .card {
     position: relative;
-    width: 280px;
+    width: 100%;
+    max-width: 320px;
+    min-width: 280px;
     background-color: #F9F5F3;
     border-radius: 12px;
     overflow: hidden;
@@ -16,16 +26,14 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Image styles */
 .image {
     width: 100%;
-    height: 320px;
+    height: 380px;
     object-fit: cover;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 }
 
-/* Title styles */
 .name {
     color: #b4b13d;
     font-size: 1.2rem;
@@ -34,15 +42,13 @@
     text-align: center;
 }
 
-/* Members count styles */
 .members {
-    color: #5c4339;
+    color: #666;
     font-size: 0.9rem;
     margin: 0 16px 16px;
     text-align: center;
 }
 
-/* Button styles */
 .button {
     background-color: #b4b13d;
     color: #F9F5F3;
@@ -51,7 +57,9 @@
     border-radius: 20px;
     font-weight: 600;
     cursor: pointer;
-    margin: 0 16px 16px;
+    margin: 0 auto 16px;
+    display: block;
+    min-width: 100px;
     transition: background-color 0.3s ease;
 }
 
@@ -59,14 +67,22 @@
     background-color: #ccc83f;
 }
 
-/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
     .card {
-        width: 100%;
-        max-width: 340px;
+        max-width: 100%;
     }
     
     .image {
-        height: 280px;
+        height: 320px;
     }
 }
