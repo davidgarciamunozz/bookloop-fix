@@ -15,7 +15,7 @@ import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../compo
 import { appState, addObserver, dispatch } from '../../store/index';
 import { getDiscoverCardsAction } from '../../store/actions';
 import '../../components/banner/banner';
-import  Banner, { AttributeBanner } from '../../components/banner/banner';
+import Banner, { AttributeBanner } from '../../components/banner/banner';
 
 class DiscoverLanding extends HTMLElement {
     user: UserInfo[] = [];
@@ -51,7 +51,7 @@ class DiscoverLanding extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
-            
+
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = '../src/screens/DISCOVERLANDING/DISCOVERLANDING.css';
@@ -85,11 +85,16 @@ class DiscoverLanding extends HTMLElement {
             const postContainer = this.ownerDocument.createElement('section');
             postContainer.className = 'post-container';
 
+            const banner = this.ownerDocument.createElement('banner-component') as Banner;
+            banner.setAttribute(AttributeBanner.utitle, 'New worlds are waiting for you!');
+            banner.setAttribute(AttributeBanner.text, 'Join and discover stories with fantastic worlds, charismatic characters and, most importantly, interact with people who have the same tastes as you.');
+            banner.setAttribute(AttributeBanner.image, 'https://github.com/ItsSilva/bookloop/blob/juanito/src/assets/bannerIMG/bookBanner.png?raw=true');
+            postContainer.appendChild(banner);
+
             const discoverCardContainer = this.ownerDocument.createElement('div');
             discoverCardContainer.className = 'discover-card-container';
             postContainer.appendChild(discoverCardContainer);
 
-            // Nueva implementación usando el componente DiscoverLandingCards
             appState.cards?.forEach((card: any) => {
                 const discoverCard = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
                 discoverCard.setAttribute(AttributeDiscoverLandingCards.uid, String(card.uid));
@@ -101,8 +106,6 @@ class DiscoverLanding extends HTMLElement {
             });
 
             container.appendChild(postContainer);
-
-            //
 
             const clubsContainer = this.ownerDocument.createElement('section');
             clubsContainer.className = 'clubs-container';
