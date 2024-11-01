@@ -33,7 +33,7 @@ class DiscoverLanding extends HTMLElement {
             userCard.setAttribute('background', dataUser.background);
             userCard.setAttribute('userpic', dataUser.userpic);
             userCard.setAttribute('name', dataUser.name);
-            userCard.setAttribute('at', dataUser.at);
+            userCard.setAttribute('username', dataUser.username);
             this.user.push(userCard);
         });
     }
