@@ -14,6 +14,7 @@ import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
+import '../../components/logoutButton/logoutButton'; 
 
 class Dashboard extends HTMLElement {
     user: UserInfo[] = [];
