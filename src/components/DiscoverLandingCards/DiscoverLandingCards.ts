@@ -101,6 +101,7 @@ class DiscoverLandingCards extends HTMLElement {
             button.addEventListener('click', this.navegateToDiscoverMain.bind(this));
             console.log(this.uid);
             
+            // Test message
         }
     }
 }
