@@ -21,35 +21,66 @@ class UserInfo extends HTMLElement {
     }
 
     attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
-        this[propName] = newValue; // background, userpic, name, at
+        this[propName] = newValue;
         this.render();
     }
 
     connectedCallback() {
         this.render();
-        // console.log('User Info connected');
     }
 
     render() {
         if (this.shadowRoot) {
-            this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="../src/components/userInfo/userInfo.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <section class='container'>
-            <img src="${this.background || 'No Image'}" alt="Background">
-            <div class='container-background'>
-            <div class='container-userpic'>
-                <a href="#">
-                    <img src="${this.userpic || 'No Image'}" alt="User Picture">
-                </a>
-                    </div>
-                    <div class='container-text'>
-                        <h2>${this.name || 'No Name'}</h2>
-                        <p>${this.at || 'No At'}</p>
-                    </div>
-                </div>
-            </section>
-            `;
+            this.shadowRoot.innerHTML = '';
+
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/components/userInfo/userInfo.css';
+            this.shadowRoot.appendChild(link);
+
+            const fontAwesomeLink = document.createElement('link');
+            fontAwesomeLink.rel = 'stylesheet';
+            fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+            this.shadowRoot.appendChild(fontAwesomeLink);
+
+            const container = this.ownerDocument.createElement('section');
+            container.className = 'container';
+
+            const backgroundImage = this.ownerDocument.createElement('img');
+            backgroundImage.src = this.background || '';
+            backgroundImage.alt = 'Background';
+            container.appendChild(backgroundImage);
+
+            const containerBackground = this.ownerDocument.createElement('div');
+            containerBackground.className = 'container-background';
+            container.appendChild(containerBackground);
+
+            const containerUserpic = this.ownerDocument.createElement('div');
+            containerUserpic.className = 'container-userpic';
+            containerBackground.appendChild(containerUserpic);
+
+            const userpicLink = this.ownerDocument.createElement('a');
+            userpicLink.href = '#';
+            containerUserpic.appendChild(userpicLink);
+
+            const userpicImage = this.ownerDocument.createElement('img');
+            userpicImage.src = this.userpic || '';
+            userpicImage.alt = 'User Picture';
+            userpicLink.appendChild(userpicImage);
+
+            const containerText = this.ownerDocument.createElement('div');
+            containerText.className = 'container-text';
+            containerBackground.appendChild(containerText);
+
+            const nameElement = this.ownerDocument.createElement('h2');
+            nameElement.textContent = this.name || 'No Name';
+            containerText.appendChild(nameElement);
+
+            const atElement = this.ownerDocument.createElement('p');
+            atElement.textContent = this.at || 'No At';
+            containerText.appendChild(atElement);
+
+            this.shadowRoot.appendChild(container);
         }
     }
 }
