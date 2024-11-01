@@ -1,5 +1,5 @@
 import { Actions, Screens } from '../types/store';
-import { getPublications, getDiscoverCards, getUserName } from '../utils/firebase';
+import { getPublications, getDiscoverCards, getClubsCards, getUserName } from '../utils/firebase';
 
 export const navigate = (screen: Screens) => {
 	return {
@@ -28,6 +28,14 @@ export const getDiscoverCardsAction = async () => {
 	return {
 		action: Actions.GETDISCOVERCARDSACTION,
 		payload: cards,
+	};
+};
+
+export const getClubsAction = async () => {
+	const clubs = await getClubsCards();
+	return {
+		action: Actions.GETCLUBSARDSACTION,
+		payload: clubs,
 	};
 };
 
