@@ -15,6 +15,8 @@ import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
 import { dataClubs } from '../../data/dataClubs';
 import '../../components/logoutButton/logoutButton'; 
+import { appState, dispatch } from '../../store';
+import { getUserNameAction } from '../../store/actions';
 
 class Dashboard extends HTMLElement {
     user: UserInfo[] = [];
@@ -38,10 +40,14 @@ class Dashboard extends HTMLElement {
         });
     }
 
-    connectedCallback() {
-        this.render();
-        // Escuchar el evento personalizado emitido por NavBar
+    async connectedCallback() {
         this.addEventListener('toggle-user-container', () => this.toggleUserContainer());
+        if (appState.user) {
+            const action = await getUserNameAction();
+            dispatch(action);
+        } else {
+            this.render();
+        }
     }
 
     toggleUserContainer() {
