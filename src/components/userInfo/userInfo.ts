@@ -18,6 +18,11 @@ class UserInfo extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        addObserver(this);
+        this.background = '';
+        this.userpic = '';
+        this.name = '';
+        this.at = '';
     }
 
     static get observedAttributes() {
