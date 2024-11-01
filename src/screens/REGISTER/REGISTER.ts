@@ -43,6 +43,10 @@ class Register extends HTMLElement {
 		resp ? dispatch(navigate(Screens.LOGIN)) : alert('Could not create user');
 	}
 
+	redirectToLogin() {
+		dispatch(navigate(Screens.LOGIN));
+	}
+
 	async render() {
 		if (this.shadowRoot) {
 
@@ -62,6 +66,12 @@ class Register extends HTMLElement {
 			title.className = 'form-title';
 			form.appendChild(title);
 
+			const desc = this.ownerDocument.createElement('p');
+			desc.className = 'form-desc';
+			desc.innerText = 'Allow us to know you. We are glad you are here.';
+			form.appendChild(desc);
+
+
 			// Campos del formulario
 
 			const pName = document.createElement('input');
@@ -78,7 +88,7 @@ class Register extends HTMLElement {
 			pUserName.addEventListener('change', this.changeAge);
 			form.appendChild(pUserName);
 
-			const pEmail = document.createElement('input');
+						const pEmail = document.createElement('input');
 			pEmail.placeholder = 'Email';
 			pEmail.className = 'form-input';
 			pEmail.required = true;
@@ -100,6 +110,8 @@ class Register extends HTMLElement {
 			save.className = 'form-button';
 			save.addEventListener('click', this.submitForm);
 			form.appendChild(save);
+
+
 
 			container.appendChild(form);
 
