@@ -1,4 +1,4 @@
-export enum Attribute {
+export enum AttributeUserInfo {
     'background' = 'background',
     'userpic' = 'userpic',
     'name' = 'name',
@@ -17,10 +17,10 @@ class UserInfo extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return Object.keys(Attribute) as Array<Attribute>;
+        return Object.keys(AttributeUserInfo) as Array<AttributeUserInfo>;
     }
 
-    attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
+    attributeChangedCallback(propName: AttributeUserInfo, oldValue: string | undefined, newValue: string | undefined) {
         this[propName] = newValue;
         this.render();
     }
