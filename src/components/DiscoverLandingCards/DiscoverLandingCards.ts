@@ -1,5 +1,5 @@
 import { dispatch, addObserver, appState } from '../../store/index';
-import { navigate, getDiscoverCardsAction } from '../../store/actions';
+import { getClubsAction } from '../../store/actions';
 import { Screens } from '../../types/store';
 
 export enum AttributeDiscoverLandingCards {
@@ -45,23 +45,18 @@ class DiscoverLandingCards extends HTMLElement {
         this.button = '';
     }
 
-    async connectedCallback() {
-        if (appState.cards.length === 0) {
-            const action = await getDiscoverCardsAction();
-            dispatch(action);
-        } else {
-            this.render();
-        }
+    connectedCallback() {
+        this.render();
     }
 
-    navegateToDiscoverMain() {
-        dispatch(navigate(Screens.DISCOVERMAIN));
+    addToClubsLanding() {
+        dispatch(getClubsAction());
     }
-    
+
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
-            
+
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = '../src/components/DiscoverLandingCards/DiscoverLandingCards.css';
@@ -69,7 +64,7 @@ class DiscoverLandingCards extends HTMLElement {
 
             const card = this.ownerDocument.createElement('div');
             card.className = 'card';
-            
+
             // uid as a data attribute
             card.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
 
@@ -98,7 +93,7 @@ class DiscoverLandingCards extends HTMLElement {
 
             this.shadowRoot.appendChild(card);
 
-            button.addEventListener('click', this.navegateToDiscoverMain.bind(this));
+            button.addEventListener('click', this.addToClubsLanding.bind(this));
         }
     }
 }
