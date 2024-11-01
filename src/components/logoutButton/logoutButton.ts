@@ -25,7 +25,12 @@ class LogoutButton extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
-               
+               <style>
+               .logout-button{
+               background-color: transparent,
+               border: none,
+               cursor: pointer;}
+               </style>
                 <button class="logout-button" id="logout-button">Log out</button>
             `;
 
