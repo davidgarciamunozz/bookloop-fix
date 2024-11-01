@@ -25,12 +25,8 @@ class LogoutButton extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
-               <style>
-               .logout-button{
-               background-color: transparent,
-               border: none,
-               cursor: pointer;}
-               </style>
+               <link rel="stylesheet" href="../src/components/logoutButton/logoutButton.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                 <button class="logout-button" id="logout-button">Log out</button>
             `;
 
