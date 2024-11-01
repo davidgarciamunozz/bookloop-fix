@@ -112,6 +112,30 @@ export const getDiscoverCards = async () => {
 	}
 };
 
+// Nota: las funciones faltantes por crear se encuentran en el video de la ultima clase
+
+// Crear funcion que agregue los elementos a la base de datos segun el id del usuario
+
+// Modificar la funcion getClubsCards para que solo devuelva los clubs del usuario
+export const getClubsCards = async () => {
+	try {
+		const { db } = await getFirebaseInstance();
+		const { collection, getDocs } = await import('firebase/firestore');
+
+		const where = collection(db, 'clubs');
+		const querySnapshot = await getDocs(where);
+		const data: any[] = [];
+
+		querySnapshot.forEach((doc) => {
+			data.push(doc.data());
+		});
+
+		return data;
+	} catch (error) {
+		console.error('Error getting documents', error);
+	}
+};
+
 export const getUserName = async () => {
 	try {
 		const { db } = await getFirebaseInstance();
