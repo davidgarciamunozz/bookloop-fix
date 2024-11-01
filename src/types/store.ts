@@ -5,6 +5,7 @@ export type AppState = {
 	publications: [];
 	user: {};
 	cards: any[],
+	clubs: any[],
 };
 
 export enum Screens {
@@ -22,5 +23,6 @@ export enum Actions {
 	'GETPUBLICATIONS' = 'GETPUBLICATIONS',
 	'SETUSERCREDENTIALS' = 'SETUSERCREDENTIALS',
 	'GETDISCOVERCARDSACTION' = 'GETDISCOVERCARDSACTION',
+	'GETCLUBSARDSACTION' = 'GETCLUBSARDSACTION',
 	'GETUSERNAME' = 'GETUSERNAME',
 }
