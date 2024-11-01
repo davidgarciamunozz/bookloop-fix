@@ -37,13 +37,8 @@ class Login extends HTMLElement {
 	async render() {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="../src/screens/LOGIN/LOGIN.css">
-
-
+            <link rel="stylesheet" href="../src/screens/LOGIN/LOGIN.css">`;
 			
-            `;
-			
-
 			const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = '../src/screens/LOGIN/LOGIN.css';
