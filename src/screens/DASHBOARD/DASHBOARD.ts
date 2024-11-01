@@ -4,7 +4,7 @@ import '../../components/navBar/navBar';
 import '../../components/userMenu/userMenu';
 import '../../components/newPost/newPost';
 import '../../components/postComponent/post';
-import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
+import UserInfo, { AttributeUserInfo } from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
 import Post, { Attribute2 } from '../../components/postComponent/post';
 import { dataPosts } from '../../data/dataPosts';
