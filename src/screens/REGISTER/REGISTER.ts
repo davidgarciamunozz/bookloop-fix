@@ -47,52 +47,63 @@ class Register extends HTMLElement {
 		if (this.shadowRoot) {
 
 			const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = '../src/screens/REGISTER/REGISTER.css';
-            this.shadowRoot.appendChild(link);
-
+			link.rel = 'stylesheet';
+			link.href = '../src/screens/REGISTER/REGISTER.css';
+			this.shadowRoot.appendChild(link);
 
 			const container = document.createElement('section');
 			container.className = 'form-container';
 
-			const title = this.ownerDocument.createElement('h1');
-			title.innerText = 'Register';
-			title.className = 'form-title';
+			const form = document.createElement('div');
+			form.className = 'form-div';
 
-			const pEmail = this.ownerDocument.createElement('input');
+			const title = document.createElement('h1');
+			title.innerText = 'Its nice to meet you :)';
+			title.className = 'form-title';
+			form.appendChild(title);
+
+			// Campos del formulario
+
+			const pName = document.createElement('input');
+			pName.placeholder = 'Full name';
+			pName.className = 'form-input';
+			pName.required = true;
+			pName.addEventListener('change', this.changeName);
+			form.appendChild(pName);
+
+			const pUserName = document.createElement('input');
+			pUserName.placeholder = 'User name';
+			pUserName.className = 'form-input';
+			pUserName.required = true;
+			pUserName.addEventListener('change', this.changeAge);
+			form.appendChild(pUserName);
+
+			const pEmail = document.createElement('input');
 			pEmail.placeholder = 'Email';
 			pEmail.className = 'form-input';
 			pEmail.required = true;
 			pEmail.addEventListener('change', this.changeEmail);
-			this.shadowRoot.appendChild(pEmail);
+			form.appendChild(pEmail);
 
-			const pPassword = this.ownerDocument.createElement('input');
-			pPassword.className = 'form-input';
+			const pPassword = document.createElement('input');
 			pPassword.placeholder = 'Password';
 			pPassword.type = 'password';
+			pPassword.className = 'form-input';
 			pPassword.required = true;
 			pPassword.addEventListener('change', this.changePassword);
-			this.shadowRoot.appendChild(pPassword);
+			form.appendChild(pPassword);
 
-			const pName = this.ownerDocument.createElement('input');
-			pName.className = 'form-input';
-			pName.placeholder = 'Full name';
-			pName.required = true;
-			pName.addEventListener('change', this.changeName);
-			this.shadowRoot.appendChild(pName);
 
-			const pUserName = this.ownerDocument.createElement('input');
-			pUserName.className = 'form-input';
-			pUserName.placeholder = 'User name';
-			pUserName.required = true;
-			pUserName.addEventListener('change', this.changeAge);
-			this.shadowRoot.appendChild(pUserName);
-
-			const save = this.ownerDocument.createElement('button');
+			// Botón de registro
+			const save = document.createElement('button');
+			save.innerText = 'Start now';
 			save.className = 'form-button';
-			save.innerText = 'Register';
 			save.addEventListener('click', this.submitForm);
-			this.shadowRoot.appendChild(save);
+			form.appendChild(save);
+
+			container.appendChild(form);
+
+			this.shadowRoot.appendChild(container);
 		}
 	}
 }
