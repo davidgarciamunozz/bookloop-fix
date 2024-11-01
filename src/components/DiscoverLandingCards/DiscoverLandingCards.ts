@@ -99,6 +99,8 @@ class DiscoverLandingCards extends HTMLElement {
             this.shadowRoot.appendChild(card);
 
             button.addEventListener('click', this.navegateToDiscoverMain.bind(this));
+            console.log(this.uid);
+            
         }
     }
 }
