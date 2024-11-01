@@ -1,4 +1,4 @@
-export enum Attribute {
+export enum AttributeBanner {
     'utitle' = 'utitle',
     'text' = 'text',
     'image' = 'image',
@@ -15,10 +15,10 @@ class Banner extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return Object.keys(Attribute) as Array<Attribute>;
+        return Object.keys(AttributeBanner) as Array<AttributeBanner>;
     }
 
-    attributeChangedCallback(propName: Attribute, oldValue: string | undefined, newValue: string | undefined) {
+    attributeChangedCallback(propName: AttributeBanner, oldValue: string | undefined, newValue: string | undefined) {
         this[propName] = newValue;
         this.render();
     }
@@ -35,10 +35,12 @@ class Banner extends HTMLElement {
             container.className = 'container';
             this.shadowRoot.appendChild(container);
 
-            // Create the container for user action items
-            const actionUserElement = this.ownerDocument.createElement('div');
-            actionUserElement.className = 'action-user-element';
-            container.appendChild(actionUserElement);
+            // Create the container for banner text
+            const textContainer = this.ownerDocument.createElement('div');
+            textContainer.className = 'action-user-element';
+            container.appendChild(textContainer);
+
+
         }
     }
 }
