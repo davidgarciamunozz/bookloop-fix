@@ -69,6 +69,9 @@ class DiscoverLandingCards extends HTMLElement {
 
             const card = this.ownerDocument.createElement('div');
             card.className = 'card';
+            
+            // uid as a data attribute
+            card.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
 
             const image = this.ownerDocument.createElement('img');
             image.className = 'image';
@@ -89,11 +92,15 @@ class DiscoverLandingCards extends HTMLElement {
             const button = this.ownerDocument.createElement('button');
             button.className = 'button';
             button.textContent = 'Join';
+            // Add the uid to the button
+            button.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
             card.appendChild(button);
 
             this.shadowRoot.appendChild(card);
 
             button.addEventListener('click', this.navegateToDiscoverMain.bind(this));
+            console.log(this.uid);
+            
         }
     }
 }
