@@ -81,6 +81,7 @@ class Login extends HTMLElement {
 			const redirec = this.ownerDocument.createElement('h4');
 			redirec.className = 'form-redirec';
 			redirec.innerText = 'Not a member? Register now!';
+			redirec.addEventListener('click', () => this.redirectToRegister());
 
 			const save = this.ownerDocument.createElement('button');
 			save.className = 'form-button';
