@@ -2,7 +2,7 @@ import * as components from '../../components/index';
 import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
 import '../../components/userMenu/userMenu';
-import UserInfo, { Attribute } from '../../components/userInfo/userInfo';
+import UserInfo, { AttributeUserInfo } from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
 import '../../components/postPopUp/postPopUp';
 import PostPopUp, { Attribute3 } from '../../components/postPopUp/postPopUp';
