@@ -30,6 +30,12 @@ class Banner extends HTMLElement {
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
+
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../src/components/banner/banner.css';
+            this.shadowRoot.appendChild(link);
+
             // Create the main container (section)
             const container = this.ownerDocument.createElement('section');
             container.className = 'container';
