@@ -52,6 +52,11 @@ class Banner extends HTMLElement {
             text.textContent = this.text? this.text : 'No text provided';
             textContainer.appendChild(text);
 
+            // Create the container for banner image
+            const imageContainer = this.ownerDocument.createElement('div');
+            imageContainer.className = 'image-container';
+            container.appendChild(imageContainer);
+
 
         }
     }
