@@ -39,6 +39,7 @@ class DiscoverLanding extends HTMLElement {
     }
 
     async connectedCallback() {
+        // Cargar las tarjetas de discover si no están cargadas
         if (appState.cards.length === 0) {
             const action = await getDiscoverCardsAction();
             if (action) {
@@ -46,6 +47,39 @@ class DiscoverLanding extends HTMLElement {
             }
         }
         this.render();
+    }
+
+    async renderDiscoverCards(container: HTMLElement) {
+        const userId = appState.user;
+        
+        if (!appState.cards || !Array.isArray(appState.cards)) {
+            console.log("No discover cards available");
+            return;
+        }
+    
+        container.innerHTML = '';
+    
+        appState.cards.forEach((card: any) => {
+            const discoverCard = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
+            
+            if (card.id || card.uid) {
+                discoverCard.setAttribute(AttributeDiscoverLandingCards.uid, String(card.id || card.uid));
+            } else {
+                console.error("Card has no uid or id:", card);
+                return;
+            }
+            
+            discoverCard.setAttribute(AttributeDiscoverLandingCards.image, card.image || '');
+            discoverCard.setAttribute(AttributeDiscoverLandingCards.name, card.name || '');
+            discoverCard.setAttribute(AttributeDiscoverLandingCards.members, card.members || '');
+    
+            // Check if the current user is already a member
+            const isUserMember = card.usersid && Array.isArray(card.usersid) && card.usersid.includes(userId);
+            
+            discoverCard.setAttribute(AttributeDiscoverLandingCards.button, isUserMember ? 'Joined' : 'Join');
+    
+            container.appendChild(discoverCard);
+        });
     }
 
     render() {
@@ -96,15 +130,8 @@ class DiscoverLanding extends HTMLElement {
             discoverCardContainer.className = 'discover-card-container';
             postContainer.appendChild(discoverCardContainer);
 
-            appState.cards?.forEach((card: any) => {
-                const discoverCard = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
-                discoverCard.setAttribute(AttributeDiscoverLandingCards.uid, String(card.uid));
-                discoverCard.setAttribute(AttributeDiscoverLandingCards.image, card.image);
-                discoverCard.setAttribute(AttributeDiscoverLandingCards.name, card.name);
-                discoverCard.setAttribute(AttributeDiscoverLandingCards.members, card.members);
-                discoverCard.setAttribute(AttributeDiscoverLandingCards.button, card.button);
-                discoverCardContainer.appendChild(discoverCard);
-            });
+            // Render discover cards
+            this.renderDiscoverCards(discoverCardContainer);
 
             container.appendChild(postContainer);
 
