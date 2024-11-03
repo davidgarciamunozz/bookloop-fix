@@ -26,6 +26,7 @@ const initialState: AppState = {
 	user: {},
 	cards: [],
 	clubs: [],
+	isFetched: false,
 };
 
 export let appState = initialState;
