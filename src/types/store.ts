@@ -6,6 +6,7 @@ export type AppState = {
 	user: {};
 	cards: any[],
 	clubs: any[],
+	isFetched: boolean;
 };
 
 export enum Screens {
@@ -24,5 +25,6 @@ export enum Actions {
 	'SETUSERCREDENTIALS' = 'SETUSERCREDENTIALS',
 	'GETDISCOVERCARDSACTION' = 'GETDISCOVERCARDSACTION',
 	'GETCLUBSARDSACTION' = 'GETCLUBSARDSACTION',
+	'ADDCLUBSARDSACTION' = 'ADDCLUBSARDSACTION',
 	'GETUSERNAME' = 'GETUSERNAME',
 }
