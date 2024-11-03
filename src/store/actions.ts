@@ -1,3 +1,4 @@
+import { dispatch } from '../store';
 import { Actions, Screens } from '../types/store';
 import { getPublications, getDiscoverCards, getClubsCards, addClubsCards, getUserName } from '../utils/firebase';
 
@@ -31,18 +32,41 @@ export const getDiscoverCardsAction = async () => {
 	};
 };
 
-// Action to obtain the active user's clubs
 export const getClubsAction = async () => {
-    const clubs = await getClubsCards();
-    return {
-        action: Actions.GETCLUBSARDSACTION,
-        payload: clubs,
-    };
+    try {
+        const clubs = await getClubsCards();
+        console.log("Retrieved clubs:", clubs);
+        return {
+            action: Actions.GETCLUBSARDSACTION,
+            payload: clubs,
+        };
+    } catch (error) {
+        console.error("Error in getClubsAction:", error);
+        return null;
+    }
 };
 
-// Action to add a specific club for the usero
 export const addClubForUser = async (clubData: any) => {
-    await addClubsCards(clubData);
+    try {
+        console.log("Adding user to club:", clubData);
+        const success = await addClubsCards(clubData);
+        
+        if (success) {
+            // Get updated clubs after adding
+            const updatedClubs = await getClubsCards();
+            console.log("Updated clubs after adding:", updatedClubs);
+            
+            dispatch({
+                action: Actions.GETCLUBSARDSACTION,
+                payload: updatedClubs,
+            });
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error("Error in addClubForUser:", error);
+        return false;
+    }
 };
 
 
