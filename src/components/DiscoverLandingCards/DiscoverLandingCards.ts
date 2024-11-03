@@ -11,7 +11,7 @@ export enum AttributeDiscoverLandingCards {
 }
 
 class DiscoverLandingCards extends HTMLElement {
-    uid?: number;
+    uid?: string; // Changed from number to string
     image?: string;
     name?: string;
     members?: string;
@@ -24,7 +24,7 @@ class DiscoverLandingCards extends HTMLElement {
     attributeChangedCallback(propName: AttributeDiscoverLandingCards, oldValue: string | undefined, newValue: string | undefined) {
         switch (propName) {
             case AttributeDiscoverLandingCards.uid:
-                this[propName] = newValue ? Number(newValue) : undefined;
+                this[propName] = newValue || undefined; // Simply assign the string value
                 break;
             default:
                 this[propName] = newValue;
@@ -48,20 +48,6 @@ class DiscoverLandingCards extends HTMLElement {
         this.render();
     }
 
-    async addToClubsLanding() {
-        const userId = appState.user;
-        if (userId && this.uid) {
-            const clubData = {
-                uid: this.uid,
-                image: this.image,
-                name: this.name,
-                members: this.members
-            };
-            await addClubForUser(clubData);
-            dispatch(await getClubsAction());
-        }
-    }
-
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = '';
@@ -73,7 +59,6 @@ class DiscoverLandingCards extends HTMLElement {
 
             const card = this.ownerDocument.createElement('div');
             card.className = 'card';
-            card.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
 
             const image = this.ownerDocument.createElement('img');
             image.className = 'image';
@@ -93,14 +78,75 @@ class DiscoverLandingCards extends HTMLElement {
 
             const button = this.ownerDocument.createElement('button');
             button.className = 'button';
-            button.textContent = 'Join';
-            button.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
-            card.appendChild(button);
+            button.textContent = this.button || 'Join';
 
+            if (this.button === 'Joined') {
+                button.disabled = true;
+                button.style.backgroundColor = '#808080';
+            } else {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    if (!this.uid) {
+                        console.error("No uid found for card");
+                        return;
+                    }
+                    console.log("Button clicked for uid:", this.uid);
+                    button.disabled = true;
+                    button.textContent = 'Adding...';
+                    
+                    try {
+                        const success = await this.addToClubsLanding();
+                        if (success) {
+                            button.textContent = 'Joined';
+                            button.style.backgroundColor = '#808080';
+                            button.disabled = true;
+                        } else {
+                            button.disabled = false;
+                            button.textContent = 'Join';
+                        }
+                    } catch (error) {
+                        console.error("Error adding to clubs:", error);
+                        button.disabled = false;
+                        button.textContent = 'Join';
+                    }
+                });
+            }
+            
+            card.appendChild(button);
             this.shadowRoot.appendChild(card);
         }
-        const addToClubsLanding = this.shadowRoot?.querySelector('button');
-        addToClubsLanding?.addEventListener('click', this.addToClubsLanding);
+    }
+
+    async addToClubsLanding() {
+        try {
+            const userId = appState.user;
+            console.log("Current userId:", userId);
+    
+            if (!userId) {
+                console.error("No user ID found in appState");
+                return false;
+            }
+    
+            if (!this.uid) {
+                console.error("No uid found for card");
+                return false;
+            }
+    
+            const clubData = {
+                uid: this.uid, // Now passing string uid
+                image: this.image || '',
+                name: this.name || '',
+                members: this.members || '',
+            };
+    
+            console.log("Attempting to add club with data:", clubData);
+            const success = await addClubForUser(clubData);
+            return success;
+    
+        } catch (error) {
+            console.error("Error in addToClubsLanding:", error);
+            return false;
+        }
     }
 }
 
