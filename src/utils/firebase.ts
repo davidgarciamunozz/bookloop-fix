@@ -1,5 +1,6 @@
 import { browserLocalPersistence } from 'firebase/auth';
 import { appState } from '../store/index';
+import { addDoc } from 'firebase/firestore';
 
 let db: any;
 let auth: any;
@@ -115,53 +116,78 @@ export const getDiscoverCards = async () => {
 
 // Note: the missing functions to create are found in the video of the last class
 
-// Create a function that adds the elements to the database based on the user's id
 export const addClubsCards = async (clubData: any) => {
     try {
         const { db } = await getFirebaseInstance();
-        const { collection, addDoc } = await import('firebase/firestore');
+        const { doc, updateDoc, arrayUnion, getDoc } = await import('firebase/firestore');
 
         const userId = appState.user;
+        console.log("Current userId:", userId);
+
         if (!userId) {
-            console.error("User ID not found in app state.");
-            return;
+            throw new Error("No user ID found in appState");
         }
 
-        const clubsRef = collection(db, 'clubs');
-        await addDoc(clubsRef, { ...clubData, userId });
-        console.log('Club added successfully');
+        // Reference to the specific document in discover collection
+        const discoverRef = doc(db, 'discover', clubData.uid.toString());
+        
+        // Get current document data to verify it exists
+        const docSnap = await getDoc(discoverRef);
+        if (!docSnap.exists()) {
+            throw new Error("Discover document doesn't exist");
+        }
+
+        // Update the usersid array with the new userId
+        await updateDoc(discoverRef, {
+            usersid: arrayUnion(userId)
+        });
+
+        console.log("User added to club successfully");
+        return true;
+
     } catch (error) {
-        console.error('Error adding club', error);
+        console.error("Error in addClubsCards:", error);
+        throw error;
     }
 };
 
-
-// Modify the getClubsCards function so that it only returns the user's clubs
 export const getClubsCards = async () => {
     try {
         const { db } = await getFirebaseInstance();
         const { collection, getDocs, query, where } = await import('firebase/firestore');
 
         const userId = appState.user;
+        console.log("Fetching clubs for userId:", userId);
+
         if (!userId) {
-            console.error("User ID not found in app state.");
-            return [];
+            throw new Error("No user ID found in appState");
         }
 
-        const clubsRef = collection(db, 'clubs');
-        const userClubsQuery = query(clubsRef, where('userId', '==', userId));
-        const querySnapshot = await getDocs(userClubsQuery);
+        // Query the discover collection instead
+        const discoverRef = collection(db, 'discover');
+        const querySnapshot = await getDocs(discoverRef);
 
         const data: any[] = [];
         querySnapshot.forEach((doc) => {
-            data.push(doc.data());
+            const clubData = doc.data();
+            // Check if current user's ID is in the usersid array
+            if (clubData.usersid && clubData.usersid.includes(userId)) {
+                data.push({
+                    uid: doc.id,
+                    ...clubData
+                });
+            }
         });
 
+        console.log("Retrieved user's clubs:", data);
         return data;
+
     } catch (error) {
-        console.error('Error getting documents', error);
+        console.error("Error in getClubsCards:", error);
+        throw error;
     }
 };
+
 
 export const getUserName = async () => {
 	try {
