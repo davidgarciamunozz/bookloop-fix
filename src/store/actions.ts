@@ -1,6 +1,6 @@
 import { dispatch } from '../store';
 import { Actions, Screens } from '../types/store';
-import { getPublications, getDiscoverCards, getClubsCards, addClubsCards, getUserName } from '../utils/firebase';
+import { getPublications, getDiscoverCards, getClubsCards, addClubsCards, getUserName, removeClubsCards } from '../utils/firebase';
 
 export const navigate = (screen: Screens) => {
 	return {
@@ -43,6 +43,29 @@ export const getClubsAction = async () => {
     } catch (error) {
         console.error("Error in getClubsAction:", error);
         return null;
+    }
+};
+
+export const removeClubForUser = async (clubData: any) => {
+    try {
+        console.log("Removing user from club:", clubData);
+        const success = await removeClubsCards(clubData);
+        
+        if (success) {
+            // Get updated clubs after removing
+            const updatedClubs = await getClubsCards();
+            console.log("Updated clubs after removal:", updatedClubs);
+            
+            dispatch({
+                action: Actions.GETCLUBSARDSACTION,
+                payload: updatedClubs,
+            });
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error("Error in removeClubForUser:", error);
+        return false;
     }
 };
 
