@@ -1,5 +1,5 @@
 import { Actions, Screens } from '../types/store';
-import { getPublications, getDiscoverCards, getClubsCards, getUserName } from '../utils/firebase';
+import { getPublications, getDiscoverCards, getClubsCards, addClubsCards, getUserName } from '../utils/firebase';
 
 export const navigate = (screen: Screens) => {
 	return {
@@ -31,13 +31,20 @@ export const getDiscoverCardsAction = async () => {
 	};
 };
 
+// Action to obtain the active user's clubs
 export const getClubsAction = async () => {
-	const clubs = await getClubsCards();
-	return {
-		action: Actions.GETCLUBSARDSACTION,
-		payload: clubs,
-	};
+    const clubs = await getClubsCards();
+    return {
+        action: Actions.GETCLUBSARDSACTION,
+        payload: clubs,
+    };
 };
+
+// Action to add a specific club for the usero
+export const addClubForUser = async (clubData: any) => {
+    await addClubsCards(clubData);
+};
+
 
 export const getUserNameAction = async () => {
 	const user = await getUserName();
