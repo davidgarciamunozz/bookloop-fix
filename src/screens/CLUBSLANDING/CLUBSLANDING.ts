@@ -13,7 +13,7 @@ import '../../components/DiscoverLandingCards/DiscoverLandingCards';
 import DiscoverLandingCards, { AttributeDiscoverLandingCards } from '../../components/DiscoverLandingCards/DiscoverLandingCards';
 import '../../components/banner/banner';
 import { appState, addObserver, dispatch } from '../../store/index';
-import { getClubsAction } from '../../store/actions';
+import { getClubsAction, getDiscoverCardsAction } from '../../store/actions';
 import Banner, { AttributeBanner } from '../../components/banner/banner';
 
 class ClubsLanding extends HTMLElement {
@@ -37,14 +37,112 @@ class ClubsLanding extends HTMLElement {
     }
 
     async connectedCallback() {
-        if (!appState.isFetched) { // Verify that the data has not yet been loaded
+        try {
+            if (!appState.cards || appState.cards.length === 0) {
+                const action = await getDiscoverCardsAction();
+                if (action) {
+                    dispatch(action);
+                }
+            }
+            this.render();
+        } catch (error) {
+            console.error("Error loading clubs:", error);
+        }
+    }
+
+    async renderUserClubs(container: HTMLElement) {
+        try {
+            const userId = appState.user;
+            
+            if (!userId) {
+                console.error("No user ID found in appState");
+                return;
+            }
+
+            container.innerHTML = '';
+
+            if (!Array.isArray(appState.cards)) {
+                console.log("No discover cards found in appState");
+                this.renderEmptyState(container);
+                return;
+            }
+
+            // Filter the cards where the current user is in usersid
+            const userClubs = appState.cards.filter((club: any) => 
+                club.usersid && Array.isArray(club.usersid) && club.usersid.includes(userId)
+            );
+
+            if (userClubs.length === 0) {
+                this.renderEmptyState(container);
+                return;
+            }
+
+            userClubs.forEach((club: any) => {
+                const clubCard = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
+                clubCard.setAttribute(AttributeDiscoverLandingCards.uid, String(club.uid));
+                clubCard.setAttribute(AttributeDiscoverLandingCards.image, club.image);
+                clubCard.setAttribute(AttributeDiscoverLandingCards.name, club.name);
+                clubCard.setAttribute(AttributeDiscoverLandingCards.members, club.members);
+                clubCard.setAttribute(AttributeDiscoverLandingCards.button, 'Joined');
+                
+                // Apply styles to the button
+                const button = clubCard.shadowRoot?.querySelector('.button') as HTMLButtonElement;
+                if (button) {
+                    button.disabled = true;
+                    button.style.backgroundColor = '#808080';
+                }
+                
+                clubCard.classList.add('user-club-card');
+                container.appendChild(clubCard);
+            });
+
+        } catch (error) {
+            console.error("Error rendering user clubs:", error);
+            this.renderErrorState(container);
+        }
+    }
+
+    renderEmptyState(container: HTMLElement) {
+        const emptyState = this.ownerDocument.createElement('div');
+        emptyState.className = 'empty-state';
+        
+        const message = this.ownerDocument.createElement('p');
+        message.textContent = 'No clubs joined yet. Discover new clubs to join!';
+        message.className = 'empty-state-message';
+        
+        const discoverLink = this.ownerDocument.createElement('a');
+        discoverLink.href = '#/discover';
+        discoverLink.textContent = 'Explore Clubs';
+        discoverLink.className = 'discover-link';
+        
+        emptyState.appendChild(message);
+        emptyState.appendChild(discoverLink);
+        container.appendChild(emptyState);
+    }
+
+    renderErrorState(container: HTMLElement) {
+        const errorState = this.ownerDocument.createElement('div');
+        errorState.className = 'error-state';
+        
+        const message = this.ownerDocument.createElement('p');
+        message.textContent = 'Unable to load your clubs. Please try again later.';
+        message.className = 'error-message';
+        
+        const retryButton = this.ownerDocument.createElement('button');
+        retryButton.textContent = 'Retry';
+        retryButton.className = 'retry-button';
+        retryButton.onclick = async () => {
             const action = await getClubsAction();
             if (action) {
                 dispatch(action);
+                this.render();
             }
-        }
-        this.render();
-    }    
+        };
+        
+        errorState.appendChild(message);
+        errorState.appendChild(retryButton);
+        container.appendChild(errorState);
+    }
 
     render() {
         if (this.shadowRoot) {
@@ -94,24 +192,12 @@ class ClubsLanding extends HTMLElement {
             banner.setAttribute('bg-color', '#6471c7');
             postContainer.appendChild(banner);
 
-            const discoverClubsContainer = this.ownerDocument.createElement('div');
-            discoverClubsContainer.className = 'discover-card-container';
-            postContainer.appendChild(discoverClubsContainer);
+            const userClubsContainer = this.ownerDocument.createElement('div');
+            userClubsContainer.className = 'discover-card-container';
+            postContainer.appendChild(userClubsContainer);
 
-            // Filter clubs based on active user
-            const userClubs = appState.clubs.filter((club: any) => club.userId === appState.user);
-
-            userClubs.forEach((club: any) => {
-                const discoverClubs = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
-                discoverClubs.setAttribute(AttributeDiscoverLandingCards.uid, String(club.uid));
-                discoverClubs.setAttribute(AttributeDiscoverLandingCards.image, club.image);
-                discoverClubs.setAttribute(AttributeDiscoverLandingCards.name, club.name);
-                discoverClubs.setAttribute(AttributeDiscoverLandingCards.members, club.members);
-                discoverClubs.setAttribute(AttributeDiscoverLandingCards.button, club.button);
-                discoverClubsContainer.appendChild(discoverClubs);
-            });
-
-            container.appendChild(postContainer);
+            // Render the user's clubs
+            this.renderUserClubs(userClubsContainer);
 
             if (dataClubs && Array.isArray(dataClubs)) {
                 const clubsCard1 = this.ownerDocument.createElement('clubs-card') as ClubsCard;
