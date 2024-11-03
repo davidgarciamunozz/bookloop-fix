@@ -163,15 +163,14 @@ export const getClubsCards = async () => {
             throw new Error("No user ID found in appState");
         }
 
-        // Query the discover collection instead
         const discoverRef = collection(db, 'discover');
         const querySnapshot = await getDocs(discoverRef);
 
         const data: any[] = [];
         querySnapshot.forEach((doc) => {
             const clubData = doc.data();
-            // Check if current user's ID is in the usersid array
-            if (clubData.usersid && clubData.usersid.includes(userId)) {
+            // only include cards where the user is in usersid
+            if (clubData.usersid && Array.isArray(clubData.usersid) && clubData.usersid.includes(userId)) {
                 data.push({
                     uid: doc.id,
                     ...clubData
@@ -206,4 +205,39 @@ export const getUserName = async () => {
 	} catch (error) {
 		console.error('Error getting documents', error);
 	}
+};
+
+export const removeClubsCards = async (clubData: any) => {
+    try {
+        const { db } = await getFirebaseInstance();
+        const { doc, updateDoc, arrayRemove, getDoc } = await import('firebase/firestore');
+
+        const userId = appState.user;
+        console.log("Current userId:", userId);
+
+        if (!userId) {
+            throw new Error("No user ID found in appState");
+        }
+
+        // Reference to the specific document in discover collection
+        const discoverRef = doc(db, 'discover', clubData.uid.toString());
+        
+        // Get current document data to verify it exists
+        const docSnap = await getDoc(discoverRef);
+        if (!docSnap.exists()) {
+            throw new Error("Discover document doesn't exist");
+        }
+
+        // Remove the userId from the usersid array
+        await updateDoc(discoverRef, {
+            usersid: arrayRemove(userId)
+        });
+
+        console.log("User removed from club successfully");
+        return true;
+
+    } catch (error) {
+        console.error("Error in removeClubsCards:", error);
+        throw error;
+    }
 };
