@@ -1,4 +1,5 @@
 import { browserLocalPersistence } from 'firebase/auth';
+import { appState } from '../store/index';
 
 let db: any;
 let auth: any;
@@ -112,28 +113,54 @@ export const getDiscoverCards = async () => {
 	}
 };
 
-// Nota: las funciones faltantes por crear se encuentran en el video de la ultima clase
+// Note: the missing functions to create are found in the video of the last class
 
-// Crear funcion que agregue los elementos a la base de datos segun el id del usuario
+// Create a function that adds the elements to the database based on the user's id
+export const addClubsCards = async (clubData: any) => {
+    try {
+        const { db } = await getFirebaseInstance();
+        const { collection, addDoc } = await import('firebase/firestore');
 
-// Modificar la funcion getClubsCards para que solo devuelva los clubs del usuario
+        const userId = appState.user;
+        if (!userId) {
+            console.error("User ID not found in app state.");
+            return;
+        }
+
+        const clubsRef = collection(db, 'clubs');
+        await addDoc(clubsRef, { ...clubData, userId });
+        console.log('Club added successfully');
+    } catch (error) {
+        console.error('Error adding club', error);
+    }
+};
+
+
+// Modify the getClubsCards function so that it only returns the user's clubs
 export const getClubsCards = async () => {
-	try {
-		const { db } = await getFirebaseInstance();
-		const { collection, getDocs } = await import('firebase/firestore');
+    try {
+        const { db } = await getFirebaseInstance();
+        const { collection, getDocs, query, where } = await import('firebase/firestore');
 
-		const where = collection(db, 'clubs');
-		const querySnapshot = await getDocs(where);
-		const data: any[] = [];
+        const userId = appState.user;
+        if (!userId) {
+            console.error("User ID not found in app state.");
+            return [];
+        }
 
-		querySnapshot.forEach((doc) => {
-			data.push(doc.data());
-		});
+        const clubsRef = collection(db, 'clubs');
+        const userClubsQuery = query(clubsRef, where('userId', '==', userId));
+        const querySnapshot = await getDocs(userClubsQuery);
 
-		return data;
-	} catch (error) {
-		console.error('Error getting documents', error);
-	}
+        const data: any[] = [];
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data());
+        });
+
+        return data;
+    } catch (error) {
+        console.error('Error getting documents', error);
+    }
 };
 
 export const getUserName = async () => {
