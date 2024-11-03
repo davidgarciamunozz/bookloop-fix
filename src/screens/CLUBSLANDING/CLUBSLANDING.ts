@@ -2,10 +2,9 @@ import * as components from '../../components/index';
 import '../../components/userInfo/userInfo';
 import '../../components/navBar/navBar';
 import '../../components/userMenu/userMenu';
-import UserInfo, { AttributeUserInfo } from '../../components/userInfo/userInfo';
+import UserInfo from '../../components/userInfo/userInfo';
 import { dataUsers } from '../../data/dataUsers';
 import '../../components/postPopUp/postPopUp';
-import PostPopUp, { Attribute3 } from '../../components/postPopUp/postPopUp';
 import '../../components/elements/clubInfo/clubInfo';
 import '../../components/clubsCard/clubsCard';
 import ClubsCard, { AttributeClubsCard } from '../../components/clubsCard/clubsCard';
@@ -24,7 +23,7 @@ class ClubsLanding extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-
+        addObserver(this);
         this.currentUserPic = dataUsers[0].userpic;
 
         dataUsers.forEach(dataUser => {
@@ -38,14 +37,14 @@ class ClubsLanding extends HTMLElement {
     }
 
     async connectedCallback() {
-        if (appState.clubs.length === 0) {
+        if (!appState.isFetched) { // Verify that the data has not yet been loaded
             const action = await getClubsAction();
             if (action) {
                 dispatch(action);
             }
         }
         this.render();
-    }
+    }    
 
     render() {
         if (this.shadowRoot) {
@@ -99,7 +98,10 @@ class ClubsLanding extends HTMLElement {
             discoverClubsContainer.className = 'discover-card-container';
             postContainer.appendChild(discoverClubsContainer);
 
-            appState.clubs?.forEach((club: any) => {
+            // Filter clubs based on active user
+            const userClubs = appState.clubs.filter((club: any) => club.userId === appState.user);
+
+            userClubs.forEach((club: any) => {
                 const discoverClubs = this.ownerDocument.createElement('discover-landing-card') as DiscoverLandingCards;
                 discoverClubs.setAttribute(AttributeDiscoverLandingCards.uid, String(club.uid));
                 discoverClubs.setAttribute(AttributeDiscoverLandingCards.image, club.image);
@@ -131,7 +133,6 @@ class ClubsLanding extends HTMLElement {
 
             this.shadowRoot.appendChild(navBar);
             this.shadowRoot.appendChild(container);
-            
         }
     }
 }
