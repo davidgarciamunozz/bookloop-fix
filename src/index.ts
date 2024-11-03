@@ -6,8 +6,6 @@ import './screens/LOGIN/LOGIN';
 import './screens/DASHBOARD/DASHBOARD';
 import './screens/DISCOVERLANDING/DISCOVERLANDING';
 import './screens/CLUBSLANDING/CLUBSLANDING';
-import './screens/CLUBSMAIN/CLUBSMAIN';
-import './screens/DISCOVERMAIN/DISCOVERMAIN';
 
 
 class AppContainer extends HTMLElement {
@@ -50,16 +48,6 @@ class AppContainer extends HTMLElement {
 					const clubslanding = this.ownerDocument.createElement('app-clubs-landing');
 					this.shadowRoot.appendChild(clubslanding);
 					break;
-
-				case Screens.CLUBSMAIN:
-					const clubsmain = this.ownerDocument.createElement('app-clubs-main');
-					this.shadowRoot.appendChild(clubsmain);
-					break;
-					
-					case Screens.DISCOVERMAIN:
-						const discovermain = this.ownerDocument.createElement('app-discover-main');
-						this.shadowRoot.appendChild(discovermain);
-						break;
 
 				default:
 					break;
