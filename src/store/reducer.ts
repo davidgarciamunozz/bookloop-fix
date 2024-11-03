@@ -32,7 +32,7 @@ export const reducer = (currentAction: any, currentState: any) => {
 				return {
 					...currentState,
 					clubs: payload,
-					isFetched: true, // Añadimos este flag
+					isFetched: true,
 				};			
 
 		case Actions.GETUSERNAME:
