@@ -1,5 +1,5 @@
 import { dispatch, addObserver, appState } from '../../store/index';
-import { getClubsAction } from '../../store/actions';
+import { getClubsAction, addClubForUser } from '../../store/actions';
 import { Screens } from '../../types/store';
 
 export enum AttributeDiscoverLandingCards {
@@ -37,7 +37,6 @@ class DiscoverLandingCards extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         addObserver(this);
-        // Inicializar propiedades
         this.uid = undefined;
         this.image = '';
         this.name = '';
@@ -49,8 +48,18 @@ class DiscoverLandingCards extends HTMLElement {
         this.render();
     }
 
-    addToClubsLanding() {
-        dispatch(getClubsAction());
+    async addToClubsLanding() {
+        const userId = appState.user;
+        if (userId && this.uid) {
+            const clubData = {
+                uid: this.uid,
+                image: this.image,
+                name: this.name,
+                members: this.members
+            };
+            await addClubForUser(clubData);
+            dispatch(await getClubsAction());
+        }
     }
 
     render() {
@@ -64,8 +73,6 @@ class DiscoverLandingCards extends HTMLElement {
 
             const card = this.ownerDocument.createElement('div');
             card.className = 'card';
-
-            // uid as a data attribute
             card.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
 
             const image = this.ownerDocument.createElement('img');
@@ -87,14 +94,13 @@ class DiscoverLandingCards extends HTMLElement {
             const button = this.ownerDocument.createElement('button');
             button.className = 'button';
             button.textContent = 'Join';
-            // Add the uid to the button
             button.setAttribute('data-uid', this.uid ? this.uid.toString() : '');
             card.appendChild(button);
 
             this.shadowRoot.appendChild(card);
-
-            button.addEventListener('click', this.addToClubsLanding.bind(this));
         }
+        const addToClubsLanding = this.shadowRoot?.querySelector('button');
+        addToClubsLanding?.addEventListener('click', this.addToClubsLanding);
     }
 }
 
